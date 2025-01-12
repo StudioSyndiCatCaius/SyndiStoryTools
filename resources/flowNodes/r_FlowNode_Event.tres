@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FlowNodeType" load_steps=2 format=3 uid="uid://cjxlpflvc2gd8"]
+
+[ext_resource type="Script" path="res://scripts/res/s_res_FlowNode.gd" id="1_fchk4"]
+
+[resource]
+script = ExtResource("1_fchk4")
+DisplayName = "Event"
+NodeColor = Color(0, 0.623529, 0.847059, 1)
+Size = Vector2(200, 100)
+inputs = Array[Resource("res://scripts/res/s_res_FlowNodePin.gd")]([])
+outputs = Array[Resource("res://scripts/res/s_res_FlowNodePin.gd")]([])

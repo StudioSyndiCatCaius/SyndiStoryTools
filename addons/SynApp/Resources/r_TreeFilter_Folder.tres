@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="TreeExplorerFilter" load_steps=3 format=3 uid="uid://blg3jck7a3s5x"]
+
+[ext_resource type="Script" path="res://addons/SynApp/scripts/Resource/sc_res_FileTreeFilter.gd" id="1_8xd33"]
+[ext_resource type="Texture2D" uid="uid://bw17w22ut2dx5" path="res://addons/SynApp/icons/Icon_Folder_T.PNG" id="1_13cbw"]
+
+[resource]
+script = ExtResource("1_8xd33")
+icon = ExtResource("1_13cbw")
+extension = ""

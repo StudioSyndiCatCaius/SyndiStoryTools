@@ -1,0 +1,6 @@
+{
+	"events":[
+		{"speaker":"Judith", "line":"Hello!", },
+		{"speaker":"Diedre", "line":"Hello, Judy!", },
+	]
+}

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FlowNodeType" load_steps=2 format=3 uid="uid://p8gquhypv36u"]
+
+[ext_resource type="Script" path="res://scripts/res/s_res_FlowNode.gd" id="1_6e7a8"]
+
+[resource]
+script = ExtResource("1_6e7a8")
+DisplayName = "Start"
+NodeColor = Color(0.929412, 0, 0, 1)
+Size = Vector2(100, 50)
+inputs = Array[Dictionary]([])
+outputs = Array[Dictionary]([])

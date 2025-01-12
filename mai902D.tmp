@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://boh08xsb6o6lg"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_ed7fo"]
+[ext_resource type="PackedScene" uid="uid://b0rl5uog1qaqh" path="res://addons/SynApp/Widgets/wg_FileExplorer.tscn" id="2_uu65a"]
+[ext_resource type="PackedScene" uid="uid://deoyt40sbtsqo" path="res://WIDGETS/s_EventEditor.tscn" id="3_k1mad"]
+
+[node name="main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ed7fo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+color = Color(0.129412, 0.129412, 0.129412, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="FileExplorer" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_uu65a")]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+root_path = "res://dlg/"
+
+[node name="MarginContainer2" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("3_k1mad")]
+layout_mode = 2
+
+[connection signal="file_selected" from="VBoxContainer/MarginContainer/HBoxContainer/FileExplorer" to="." method="_on_tree_file_selected"]

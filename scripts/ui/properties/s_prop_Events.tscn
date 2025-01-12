@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=3 uid="uid://deoyt40sbtsqo"]
+
+[ext_resource type="Script" path="res://scripts/ui/properties/s_prop_Events.gd" id="1_xsd1e"]
+[ext_resource type="Texture2D" uid="uid://ie7x6sfqkfd1" path="res://addons/SynApp/icons/t_ico_PlusGreen.png" id="2_ortkk"]
+[ext_resource type="PackedScene" uid="uid://c204qs3s1lpn3" path="res://scripts/ui/s_Line.tscn" id="3_hh2m0"]
+
+[node name="EventEditor" type="MarginContainer" node_paths=PackedStringArray("N_EventList")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("1_xsd1e")
+N_EventList = NodePath("ColorRect/ScrollContainer/VBoxContainer")
+
+[node name="ColorRect" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="ColorRect"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+color = Color(1, 1, 1, 0.0392157)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BTN_AutosetKeys" type="Button" parent="ColorRect/ColorRect/HBoxContainer"]
+layout_mode = 2
+text = "Autoset Kets"
+
+[node name="BTN_NewLine" type="Button" parent="ColorRect/ColorRect/HBoxContainer"]
+layout_mode = 2
+text = "New Line"
+icon = ExtResource("2_ortkk")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ColorRect"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SLine" parent="ColorRect/ScrollContainer/VBoxContainer" instance=ExtResource("3_hh2m0")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="SLine2" parent="ColorRect/ScrollContainer/VBoxContainer" instance=ExtResource("3_hh2m0")]
+layout_mode = 2
+
+[node name="SLine3" parent="ColorRect/ScrollContainer/VBoxContainer" instance=ExtResource("3_hh2m0")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="SLine4" parent="ColorRect/ScrollContainer/VBoxContainer" instance=ExtResource("3_hh2m0")]
+layout_mode = 2
+
+[connection signal="pressed" from="ColorRect/ColorRect/HBoxContainer/BTN_NewLine" to="." method="_on_btn_new_line_pressed"]

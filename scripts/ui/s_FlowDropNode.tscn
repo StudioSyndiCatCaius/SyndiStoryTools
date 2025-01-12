@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://xje2itvrockj"]
+
+[ext_resource type="Script" path="res://scripts/ui/s_FlowDropNode.gd" id="1_wiklf"]
+
+[node name="SFlowDropNode" type="ColorRect"]
+custom_minimum_size = Vector2(500, 500)
+script = ExtResource("1_wiklf")

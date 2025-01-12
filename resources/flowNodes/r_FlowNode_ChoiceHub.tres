@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FlowNodeType" load_steps=2 format=3 uid="uid://bhs7wxkkoonlc"]
+
+[ext_resource type="Script" path="res://scripts/res/s_res_FlowNode.gd" id="1_h3uu4"]
+
+[resource]
+script = ExtResource("1_h3uu4")
+DisplayName = "Choice Hub"
+NodeColor = Color(0.384314, 0.556863, 0.203922, 1)
+Size = Vector2(100, 50)
+inputs = Array[Resource("res://scripts/res/s_res_FlowNodePin.gd")]([])
+outputs = Array[Resource("res://scripts/res/s_res_FlowNodePin.gd")]([])

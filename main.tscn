@@ -1,0 +1,100 @@
+[gd_scene load_steps=6 format=3 uid="uid://boh08xsb6o6lg"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_ed7fo"]
+[ext_resource type="PackedScene" uid="uid://b0rl5uog1qaqh" path="res://addons/SynApp/Widgets/wg_FileExplorer.tscn" id="2_uu65a"]
+[ext_resource type="PackedScene" uid="uid://bsgccnic1keka" path="res://scripts/ui/s_FlowGraph.tscn" id="3_8ddlg"]
+[ext_resource type="Resource" uid="uid://cm50cpyq21w3" path="res://addons/SynApp/Resources/r_TreeFilter_dlg.tres" id="3_s7fvh"]
+[ext_resource type="Script" path="res://addons/SynLib/Components/cmp_InputEvent.gd" id="4_surlj"]
+
+[node name="main" type="Control" node_paths=PackedStringArray("N_FileTree", "N_Tabs_FlowGraphs")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ed7fo")
+N_FileTree = NodePath("VBoxContainer/MarginContainer/HBoxContainer/FileExplorer")
+N_Tabs_FlowGraphs = NodePath("VBoxContainer/MarginContainer/HBoxContainer/TabContainer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+color = Color(0.129412, 0.129412, 0.129412, 1)
+
+[node name="MenuBar" type="MenuBar" parent="VBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="menu_file" type="MenuButton" parent="VBoxContainer/ColorRect/MenuBar"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -15.5
+offset_right = 35.0
+offset_bottom = 15.5
+grow_vertical = 2
+text = "File"
+item_count = 1
+popup/item_0/text = "New Scene"
+popup/item_0/id = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="FileExplorer" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_uu65a")]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+Filter_Files = Array[Resource("res://addons/SynApp/scripts/Resource/sc_res_FileTreeFilter.gd")]([ExtResource("3_s7fvh")])
+root_path = "res://dlg/"
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FlowEditor" parent="VBoxContainer/MarginContainer/HBoxContainer/TabContainer" instance=ExtResource("3_8ddlg")]
+layout_mode = 2
+
+[node name="IE_NewScene" type="Node" parent="."]
+script = ExtResource("4_surlj")
+input_key = 78
+require_ctrl = true
+
+[node name="IE_Save" type="Node" parent="."]
+script = ExtResource("4_surlj")
+input_key = 83
+require_ctrl = true
+
+[node name="Dialog_SaveFlow" type="FileDialog" parent="."]
+initial_position = 1
+size = Vector2i(392, 159)
+popup_window = true
+root_subfolder = "res://dlg/"
+filters = PackedStringArray("*.dlg")
+use_native_dialog = true
+
+[connection signal="file_selected" from="VBoxContainer/MarginContainer/HBoxContainer/FileExplorer" to="." method="_on_tree_file_selected"]
+[connection signal="input_start" from="IE_NewScene" to="." method="_on_ie_new_scene_input_start"]
+[connection signal="input_start" from="IE_Save" to="." method="_on_ie_save_input_start"]
+[connection signal="confirmed" from="Dialog_SaveFlow" to="." method="_on_dialog_save_flow_confirmed"]

@@ -1,0 +1,41 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="SyndiStoryTools"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.2", "Mobile")
+config/icon="res://icon.svg"
+
+[autoload]
+
+APP="*res://APP.gd"
+SynMath="*res://addons/SynLib/Globals/SynMath.gd"
+SynFile="*res://addons/SynLib/Globals/SynFile.gd"
+SynNode="*res://addons/SynLib/Globals/SynNode.gd"
+SynType="*res://addons/SynLib/Globals/SynType.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
+[dotnet]
+
+project/assembly_name="LinearStoryEditor"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/SynApp/plugin.cfg", "res://addons/SynLib/plugin.cfg")
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"

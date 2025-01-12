@@ -1,0 +1,47 @@
+{
+  "connections": [
+    {
+      "from_node": "n_start",
+      "from_port": 0,
+      "to_node": "n_event1",
+      "to_port": 0
+    },
+    {
+      "from_node": "n_event1",
+      "from_port": 0,
+      "to_node": "n_end",
+      "to_port": 0
+    }
+  ],
+  "nodes": [
+    {
+      "data": {
+        "flag": "start00"
+      },
+      "name": "n_start",
+      "position": "(0, 0)",
+      "type": "start"
+    },
+    {
+      "data": {
+        "flag": "end"
+      },
+      "name": "n_end",
+      "position": "(500, 0)",
+      "type": "finish"
+    },
+    {
+      "data": {
+        "events": [
+          {
+            "direction": "ffd",
+            "line": "igo"
+          }
+        ]
+      },
+      "name": "n_event1",
+      "position": "(100, 180)",
+      "type": "event"
+    }
+  ]
+}

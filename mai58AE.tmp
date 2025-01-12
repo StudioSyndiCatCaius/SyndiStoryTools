@@ -1,0 +1,127 @@
+[gd_scene load_steps=4 format=3 uid="uid://boh08xsb6o6lg"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_ed7fo"]
+[ext_resource type="PackedScene" uid="uid://c204qs3s1lpn3" path="res://WIDGETS/s_Line.tscn" id="2_32l4f"]
+[ext_resource type="Script" path="res://Tree_Files.gd" id="2_qasw6"]
+
+[node name="main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ed7fo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+color = Color(0.129412, 0.129412, 0.129412, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+color = Color(0.129412, 0.129412, 0.129412, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Tree" type="Tree" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+script = ExtResource("2_qasw6")
+
+[node name="PopupMenu" type="PopupMenu" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer/ColorRect/MarginContainer"]
+size = Vector2i(113, 100)
+item_count = 1
+item_0/text = "New Scene"
+item_0/id = 0
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer2"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+color = Color(0.129412, 0.129412, 0.129412, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer2/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SLine" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer" instance=ExtResource("2_32l4f")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="SLine2" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer" instance=ExtResource("2_32l4f")]
+layout_mode = 2
+
+[node name="SLine3" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer" instance=ExtResource("2_32l4f")]
+layout_mode = 2
+
+[node name="SLine4" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer" instance=ExtResource("2_32l4f")]
+layout_mode = 2
+
+[node name="SLine5" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer" instance=ExtResource("2_32l4f")]
+layout_mode = 2
+
+[node name="SLine6" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer" instance=ExtResource("2_32l4f")]
+layout_mode = 2
+
+[node name="SLine7" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer" instance=ExtResource("2_32l4f")]
+layout_mode = 2
+
+[node name="SLine8" parent="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer" instance=ExtResource("2_32l4f")]
+layout_mode = 2
+
+[connection signal="file_selected" from="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer/ColorRect/MarginContainer/Tree" to="." method="_on_tree_file_selected"]
+[connection signal="item_selected" from="VBoxContainer/MarginContainer/HBoxContainer/MarginContainer/ColorRect/MarginContainer/Tree" to="." method="_on_tree_item_selected"]

@@ -1,0 +1,90 @@
+[gd_scene load_steps=4 format=3 uid="uid://bsgccnic1keka"]
+
+[ext_resource type="PackedScene" uid="uid://bw1xfx8ar1w1u" path="res://scripts/ui/s_FlowNode.tscn" id="1_nj3uu"]
+[ext_resource type="Script" path="res://scripts/ui/s_FlowGraph.gd" id="1_oq7qw"]
+[ext_resource type="Script" path="res://addons/SynLib/Components/cmp_InputEvent.gd" id="3_jbaqn"]
+
+[node name="FlowEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oq7qw")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Tree_DragNodes" type="Tree" parent="HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+hide_root = true
+
+[node name="Root_Graph" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SFlowGraph" type="GraphEdit" parent="HBoxContainer/Root_Graph"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="SFlowNode" parent="HBoxContainer/Root_Graph/SFlowGraph" instance=ExtResource("1_nj3uu")]
+layout_mode = 0
+offset_left = 132.0
+offset_top = 146.0
+offset_right = 382.0
+offset_bottom = 296.0
+mouse_filter = 1
+position_offset = Vector2(132, 146)
+
+[node name="SFlowNode2" parent="HBoxContainer/Root_Graph/SFlowGraph" instance=ExtResource("1_nj3uu")]
+layout_mode = 0
+offset_left = 558.0
+offset_top = 255.0
+offset_right = 808.0
+offset_bottom = 405.0
+mouse_filter = 1
+position_offset = Vector2(558, 255)
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.0784314)
+
+[node name="Button" type="Button" parent="HBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 39.0
+grow_horizontal = 2
+text = "print node_data"
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+
+[node name="IE_" type="Node" parent="."]
+script = ExtResource("3_jbaqn")
+
+[node name="IE_2" type="Node" parent="."]
+script = ExtResource("3_jbaqn")
+
+[connection signal="button_clicked" from="HBoxContainer/Tree_DragNodes" to="." method="_on_tree_drag_nodes_button_clicked"]
+[connection signal="item_selected" from="HBoxContainer/Tree_DragNodes" to="." method="_on_tree_drag_nodes_item_selected"]
+[connection signal="connection_drag_ended" from="HBoxContainer/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_connection_drag_ended"]
+[connection signal="connection_drag_started" from="HBoxContainer/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_connection_drag_started"]
+[connection signal="connection_request" from="HBoxContainer/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_connection_request"]
+[connection signal="delete_nodes_request" from="HBoxContainer/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_delete_nodes_request"]
+[connection signal="disconnection_request" from="HBoxContainer/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_disconnection_request"]
+[connection signal="duplicate_nodes_request" from="HBoxContainer/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_duplicate_nodes_request"]
+[connection signal="pressed" from="HBoxContainer/ColorRect/Button" to="." method="_on_button_pressed"]
+[connection signal="index_pressed" from="PopupMenu" to="." method="_on_popup_menu_index_pressed"]
