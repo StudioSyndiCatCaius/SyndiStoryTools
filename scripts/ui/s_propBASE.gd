@@ -5,6 +5,7 @@ class_name wg_PropertyBase
 
 var owner_DATA={}
 var owner_field=''
+var default_value=0
 
 func _SETUP(data,field):
 	owner_DATA=data
@@ -17,7 +18,7 @@ func _init_value():
 	pass
 
 func Value_Get():
-	return owner_DATA.get(owner_field,0)
+	return owner_DATA.get(owner_field,default_value)
 
 func Value_Set(value):
 	owner_DATA[owner_field]=value

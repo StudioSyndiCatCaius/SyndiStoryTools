@@ -19,12 +19,6 @@
       "to_port": 0
     },
     {
-      "from_node": "n_event1",
-      "from_port": 0,
-      "to_node": "choice_hub",
-      "to_port": 0
-    },
-    {
       "from_node": "choice",
       "from_port": 0,
       "to_node": "event",
@@ -53,41 +47,22 @@
       "from_port": 0,
       "to_node": "n_end",
       "to_port": 0
+    },
+    {
+      "from_node": "n_event1",
+      "from_port": 0,
+      "to_node": "choice_hub",
+      "to_port": 0
     }
   ],
   "nodes": [
     {
       "data": {
-        "events": [
-          {
-            "line": "Hello!"
-          },
-          {
-            "direction": "",
-            "line": "How are you today?",
-            "speaker": ""
-          }
-        ]
-      },
-      "name": "n_event1",
-      "position": "(200, 40)",
-      "type": "event"
-    },
-    {
-      "data": {
 
       },
       "name": "choice_hub",
-      "position": "(500, 80)",
+      "position": "(520, 240)",
       "type": "choice_hub"
-    },
-    {
-      "data": {
-
-      },
-      "name": "choice2",
-      "position": "(780, 0)",
-      "type": "choice"
     },
     {
       "data": {
@@ -100,7 +75,7 @@
         ]
       },
       "name": "event2",
-      "position": "(1080, 0)",
+      "position": "(1100, 160)",
       "type": "event"
     },
     {
@@ -122,7 +97,7 @@
         ]
       },
       "name": "event",
-      "position": "(1080, 160)",
+      "position": "(1100, 320)",
       "type": "event"
     },
     {
@@ -130,7 +105,7 @@
 
       },
       "name": "choice",
-      "position": "(780, 160)",
+      "position": "(800, 320)",
       "type": "choice"
     },
     {
@@ -154,6 +129,31 @@
       "name": "n_start",
       "position": "(0, 0)",
       "type": "start"
+    },
+    {
+      "data": {
+
+      },
+      "name": "choice2",
+      "position": "(800, 160)",
+      "type": "choice"
+    },
+    {
+      "data": {
+        "events": [
+          {
+            "line": "Hello!"
+          },
+          {
+            "direction": "",
+            "line": "How are you today?",
+            "speaker": ""
+          }
+        ]
+      },
+      "name": "n_event1",
+      "position": "(200, 60)",
+      "type": "event"
     }
   ]
 }

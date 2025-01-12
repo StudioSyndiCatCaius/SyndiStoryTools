@@ -10,7 +10,7 @@ func _init_value():
 	
 
 func Value_GetDefault()-> Dictionary:
-	return {speaker='',line="gg",direction=""}
+	return {speaker='',line="",direction=""}
 
 func _validateEvents():
 	if !owner_DATA.has('events'):

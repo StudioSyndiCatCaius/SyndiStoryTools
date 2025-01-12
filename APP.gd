@@ -1,5 +1,13 @@
 extends Node
 
+var L = LuaAPI.new()
+
+func _ready():
+	for i in SynFile.FILES_ListInDirectory("res://lua/nodes/",'lua'):
+		var lua_data = L.do_file(i)
+		if lua_data.has('id'):
+			GraphNode_Types[lua_data['id']]=lua_data
+
 # ----------------------------------------------------------------
 # Types
 # ----------------------------------------------------------------
@@ -7,7 +15,8 @@ extends Node
 # ----------------------------------------------------------------
 # DATA
 # ----------------------------------------------------------------
-var GraphNode_Types={
+var GraphNode_Types={}
+var GraphNode_TypesB={
 	start={
 		name="Start",
 		inputs=[],

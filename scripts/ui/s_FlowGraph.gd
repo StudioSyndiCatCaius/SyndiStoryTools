@@ -9,12 +9,14 @@ var N_PropertyEdit
 
 var linked_file='_nil'
 
+@export var N_Root_properties: Control
+
 @onready var N_NodeButtonBOx: Tree=$vb/HBoxContainer/Tree_DragNodes
-@onready var N_FlowGraph=$vb/HBoxContainer/Root_Graph/SFlowGraph
+@onready var N_FlowGraph=$vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph
 @onready var CLASS_FlowNode= preload("res://scripts/ui/s_FlowNode.tscn")
 @onready var N_Popup_NewNode=$PopupMenu
 @onready var N_Root_FlowGraph=$vb/HBoxContainer/Root_Graph
-@onready var N_Root_properties=$vb/HBoxContainer/ColorRect/MarginContainer/VBoxContainer/ColorRect/MarginContainer
+
 @onready var N_Notif=$vb/ColorRect2/txt_notification
 @onready var N_Timer_Notify=$Timer_NotifDisplay
 
@@ -58,7 +60,7 @@ func _process(delta):
 	if is_draggingNewNode:
 		if  Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			#n_dragDummy.position=get_global_mouse_position()
-			print(n_dragDummy.visible)
+			pass
 
 # ==================================================================
 # DATA
@@ -93,7 +95,7 @@ var n_dragItem
 var n_dragDummy
 
 func _on_tree_drag_nodes_button_clicked(item, column, id, mouse_button_index):
-	print('g1')
+	pass
 
 
 func _on_tree_drag_nodes_item_activated():
@@ -107,7 +109,6 @@ func _on_tree_drag_nodes_item_activated():
 		
 		var spawn_pos= N_FlowGraph.scroll_offset+Vector2(150,150)+SynMath.Vector2_RandomSingle(50)
 		var type_name=N_NodeButtonBOx.get_selected().get_text(0)
-		print(type_name)
 		Node_Create(type_name,spawn_pos)
 
 # ==================================================================
@@ -143,7 +144,6 @@ func GRAPH_Load_FromDict(data: Dictionary):
 		Node_Create(i['type'],in_pos,i.get('name',''),i.get('data',{}))
 	
 	for i in data['connections']:
-		print('try connect')
 		N_FlowGraph.connect_node(i['from_node'],i['from_port'],i['to_node'],i['to_port'],)
 
 # ==================================================================
@@ -243,8 +243,6 @@ func _on_button_pressed():
 func _on_btn_close_pressed():
 	queue_free()
 
-
-
 func _on_s_flow_graph_connection_to_empty(from_node, from_port, release_position):
 	SynNode.GraphNode_DisconnectNode(N_FlowGraph,N_FlowGraph.get_node(from_node),true,false)
-	print('printo')
+

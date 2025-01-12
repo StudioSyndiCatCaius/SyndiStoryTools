@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://deoyt40sbtsqo"]
 
 [ext_resource type="Script" path="res://scripts/ui/properties/s_prop_Events.gd" id="1_xsd1e"]
-[ext_resource type="Texture2D" uid="uid://ie7x6sfqkfd1" path="res://addons/SynApp/icons/t_ico_PlusGreen.png" id="2_ortkk"]
+[ext_resource type="Texture2D" uid="uid://ie7x6sfqkfd1" path="res://assets/icons/t_ico_PlusGreen.png" id="2_01t2p"]
 [ext_resource type="PackedScene" uid="uid://c204qs3s1lpn3" path="res://scripts/ui/s_Line.tscn" id="3_hh2m0"]
 
 [node name="EventEditor" type="MarginContainer" node_paths=PackedStringArray("N_EventList")]
@@ -43,7 +43,7 @@ text = "Autoset Kets"
 [node name="BTN_NewLine" type="Button" parent="ColorRect/ColorRect/HBoxContainer"]
 layout_mode = 2
 text = "New Line"
-icon = ExtResource("2_ortkk")
+icon = ExtResource("2_01t2p")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="ColorRect"]
 layout_mode = 2

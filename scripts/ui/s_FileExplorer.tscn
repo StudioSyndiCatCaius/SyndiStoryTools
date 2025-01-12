@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://b0rl5uog1qaqh"]
 
-[ext_resource type="Script" path="res://addons/SynApp/scripts/sc_Tree_FileExplorer.gd" id="1_vbwo0"]
-[ext_resource type="Resource" uid="uid://blg3jck7a3s5x" path="res://addons/SynApp/Resources/r_TreeFilter_Folder.tres" id="2_16r6i"]
-[ext_resource type="Resource" uid="uid://b75w4e2122y6h" path="res://addons/SynApp/Resources/r_TreeFilter_Json.tres" id="3_e8w8s"]
+[ext_resource type="Script" path="res://scripts/ui/s_FileExplorer.gd" id="1_dig65"]
+[ext_resource type="Resource" uid="uid://blg3jck7a3s5x" path="res://resources/FileFilters/r_TreeFilter_Folder.tres" id="2_152ph"]
+[ext_resource type="Resource" uid="uid://b75w4e2122y6h" path="res://resources/FileFilters/r_TreeFilter_Json.tres" id="3_bblpj"]
 
 [node name="FileExplorer" type="Control" node_paths=PackedStringArray("RootTree")]
 layout_mode = 3
@@ -11,10 +11,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_vbwo0")
+script = ExtResource("1_dig65")
 RootTree = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/Tree")
-Filter_Folder = ExtResource("2_16r6i")
-Filter_Files = Array[Resource("res://addons/SynApp/scripts/Resource/sc_res_FileTreeFilter.gd")]([ExtResource("3_e8w8s")])
+Filter_Folder = ExtResource("2_152ph")
+Filter_Files = Array[Resource("res://scripts/res/s_res_FileTreeFilter.gd")]([ExtResource("3_bblpj")])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

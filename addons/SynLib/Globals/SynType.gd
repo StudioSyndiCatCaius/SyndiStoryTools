@@ -42,3 +42,18 @@ func TYPE_ToString(type: int) -> String:
 		TYPE_PACKED_VECTOR3_ARRAY: return "PackedVector3Array"
 		TYPE_PACKED_COLOR_ARRAY: return "PackedColorArray"
 		_: return "unknown"
+
+
+func conv_DictToColor(dict: Dictionary) -> Color:
+	return Color(
+		dict.get("r", 1.0),
+		dict.get("g", 1.0),
+		dict.get("b", 1.0),
+		dict.get("a", 1.0)
+	)
+
+func conv_DictToVec2(dict: Dictionary) -> Vector2:
+	return Vector2(
+		dict.get("x", 0),
+		dict.get("y", 0),
+	)

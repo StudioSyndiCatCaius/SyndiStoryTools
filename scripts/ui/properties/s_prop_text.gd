@@ -2,7 +2,10 @@ extends wg_PropertyBase
 
 @export var N_ValueEdit: TextEdit
 
+
+
 func _init_value():
+	default_value=''
 	N_ValueEdit.text=Value_Get()
 
 

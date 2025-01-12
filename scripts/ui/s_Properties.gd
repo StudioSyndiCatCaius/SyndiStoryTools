@@ -27,7 +27,6 @@ func _REBUILD():
 	for i in Schema:
 		var in_type=Schema[i]
 		var new_prop=type_widgets[in_type].instantiate()
-		print('add prop: '+i)
 		N_VBox.add_child(new_prop)
 		new_prop._SETUP(DATA,i)
 

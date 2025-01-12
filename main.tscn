@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://boh08xsb6o6lg"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ed7fo"]
-[ext_resource type="PackedScene" uid="uid://b0rl5uog1qaqh" path="res://addons/SynApp/Widgets/wg_FileExplorer.tscn" id="2_uu65a"]
+[ext_resource type="PackedScene" uid="uid://b0rl5uog1qaqh" path="res://scripts/ui/s_FileExplorer.tscn" id="2_uu65a"]
 [ext_resource type="PackedScene" uid="uid://bsgccnic1keka" path="res://scripts/ui/s_FlowGraph.tscn" id="3_8ddlg"]
-[ext_resource type="Resource" uid="uid://cm50cpyq21w3" path="res://addons/SynApp/Resources/r_TreeFilter_dlg.tres" id="3_s7fvh"]
+[ext_resource type="Resource" uid="uid://cm50cpyq21w3" path="res://resources/FileFilters/r_TreeFilter_dlg.tres" id="3_s7fvh"]
 [ext_resource type="Script" path="res://addons/SynLib/Components/cmp_InputEvent.gd" id="4_surlj"]
 
 [node name="main" type="Control" node_paths=PackedStringArray("N_FileTree", "N_Tabs_FlowGraphs")]
@@ -66,7 +66,7 @@ layout_mode = 2
 [node name="FileExplorer" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_uu65a")]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
-Filter_Files = Array[Resource("res://addons/SynApp/scripts/Resource/sc_res_FileTreeFilter.gd")]([ExtResource("3_s7fvh")])
+Filter_Files = Array[Resource("res://scripts/res/s_res_FileTreeFilter.gd")]([ExtResource("3_s7fvh")])
 root_path = "res://dlg/"
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]

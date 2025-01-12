@@ -6,7 +6,7 @@
 [ext_resource type="StyleBox" uid="uid://b2sj6gmpy0aiu" path="res://resources/styles/style_box_FlowNodeTitle_select.tres" id="4_k2sli"]
 [ext_resource type="Script" path="res://scripts/ui/s_FlowNode.gd" id="5_idhyg"]
 
-[node name="SFlowNode" type="GraphNode"]
+[node name="SFlowNode" type="GraphNode" node_paths=PackedStringArray("N_label")]
 offset_right = 250.0
 offset_bottom = 150.0
 theme_override_styles/panel = ExtResource("1_f3xyi")
@@ -23,6 +23,7 @@ slot/0/right_color = Color(1, 1, 1, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
 script = ExtResource("5_idhyg")
+N_label = NodePath("TextEdit/ColorRect/ScrollContainer/MarginContainer/Label")
 
 [node name="TextEdit" type="Control" parent="."]
 layout_mode = 2
@@ -37,3 +38,38 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="TextEdit"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 6.0
+offset_right = -10.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.203922)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TextEdit/ColorRect"]
+layout_mode = 2
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 223.0
+offset_bottom = 106.0
+
+[node name="MarginContainer" type="MarginContainer" parent="TextEdit/ColorRect/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="TextEdit/ColorRect/ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 11

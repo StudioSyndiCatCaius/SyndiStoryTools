@@ -75,10 +75,8 @@ func populate_recursive(path: String, parent_item: TreeItem):
 		
 		# Then add all files
 		for file in files:
-			print(file)
 			# check if valid extension
 			for i in Filter_Files:
-				print(file.get_extension())
 				if file.get_extension() == i.extension:
 					
 					var item = RootTree.create_item(parent_item)

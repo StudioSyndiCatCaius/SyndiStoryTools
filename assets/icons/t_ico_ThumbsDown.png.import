@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bw17w22ut2dx5"
-path="res://.godot/imported/Icon_Folder_T.PNG-98c12ae57f8ff849e918fd6aaf611cea.ctex"
+uid="uid://cjd28m0aox215"
+path="res://.godot/imported/t_ico_ThumbsDown.png-16bd0d0ca63cc2e60bda105c5e11532a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/SynApp/icons/Icon_Folder_T.PNG"
-dest_files=["res://.godot/imported/Icon_Folder_T.PNG-98c12ae57f8ff849e918fd6aaf611cea.ctex"]
+source_file="res://assets/icons/t_ico_ThumbsDown.png"
+dest_files=["res://.godot/imported/t_ico_ThumbsDown.png-16bd0d0ca63cc2e60bda105c5e11532a.ctex"]
 
 [params]
 

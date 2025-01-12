@@ -36,6 +36,16 @@ project/assembly_name="LinearStoryEditor"
 
 enabled=PackedStringArray("res://addons/SynApp/plugin.cfg", "res://addons/SynLib/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://addons/": "gray",
+"res://assets/": "teal",
+"res://lua/": "blue",
+"res://resources/": "red",
+"res://scripts/": "blue"
+}
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

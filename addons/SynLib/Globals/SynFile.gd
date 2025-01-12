@@ -1,11 +1,38 @@
 extends Node
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func FILES_ListInDirectory(path: String, extension: String = "", recursive: bool = false) -> Array:
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+	var files = []
+	var dir = DirAccess.open(path)
+	
+	if dir == null:
+		push_warning("Failed to access path: " + path)
+		return files
+	
+	# Begin directory scanning
+	dir.list_dir_begin()
+	
+	while true:
+		var file = dir.get_next()
+		if file == "":
+			break
+			
+		# Skip hidden files and current/parent directory markers
+		if file.begins_with("."):
+			continue
+			
+		var full_path = path.path_join(file)
+		
+		if dir.current_is_dir():
+			if recursive:
+				# Recursively scan subdirectories
+				files.append_array(FILES_ListInDirectory(full_path, extension, true))
+		else:
+			# Check extension filter if specified
+			if extension == "" or file.ends_with(extension):
+				files.append(full_path)
+	
+	dir.list_dir_end()
+	
+	return files

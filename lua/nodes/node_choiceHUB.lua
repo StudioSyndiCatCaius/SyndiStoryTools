@@ -1,0 +1,9 @@
+return {
+	id='choice_hub',
+	name="Choice Hub",
+	inputs={{}},
+	outputs={{}},
+	color={r=0.2,g=0.7,b=0.3,a=1},
+	size={x=60,y=40},
+	schema={},
+}

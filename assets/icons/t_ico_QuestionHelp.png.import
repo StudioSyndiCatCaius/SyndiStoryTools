@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjd28m0aox215"
-path="res://.godot/imported/t_ico_ThumbsDown.png-f1595db80c1eb49f4fefc428716b9fef.ctex"
+uid="uid://coadprxc1k2kf"
+path="res://.godot/imported/t_ico_QuestionHelp.png-b0d611eff20ecbb60ffbb06921d5e67a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/SynApp/icons/t_ico_ThumbsDown.png"
-dest_files=["res://.godot/imported/t_ico_ThumbsDown.png-f1595db80c1eb49f4fefc428716b9fef.ctex"]
+source_file="res://assets/icons/t_ico_QuestionHelp.png"
+dest_files=["res://.godot/imported/t_ico_QuestionHelp.png-b0d611eff20ecbb60ffbb06921d5e67a.ctex"]
 
 [params]
 

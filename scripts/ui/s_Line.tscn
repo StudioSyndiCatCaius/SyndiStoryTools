@@ -1,11 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://c204qs3s1lpn3"]
+[gd_scene load_steps=5 format=3 uid="uid://c204qs3s1lpn3"]
 
 [ext_resource type="Script" path="res://scripts/ui/s_Line.gd" id="1_f8lne"]
-[ext_resource type="Texture2D" uid="uid://b1102mskhkuq2" path="res://addons/SynApp/icons/t_ico_CrossRed.png" id="2_exewd"]
-[ext_resource type="Texture2D" uid="uid://ie7x6sfqkfd1" path="res://addons/SynApp/icons/t_ico_PlusGreen.png" id="3_fpyvw"]
+[ext_resource type="LabelSettings" uid="uid://53oytumnww6s" path="res://resources/labels/r_label_ParamName.tres" id="2_v87ia"]
+[ext_resource type="Texture2D" uid="uid://b1102mskhkuq2" path="res://assets/icons/t_ico_CrossRed.png" id="2_x2wh5"]
+[ext_resource type="Texture2D" uid="uid://ie7x6sfqkfd1" path="res://assets/icons/t_ico_PlusGreen.png" id="3_7c52g"]
 
 [node name="SLine" type="Control" node_paths=PackedStringArray("N_line", "N_direction")]
-custom_minimum_size = Vector2(0, 75)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -75,19 +76,24 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer2"]
 layout_mode = 2
 text = "line"
+label_settings = ExtResource("2_v87ia")
 
 [node name="tEdit_line" type="TextEdit" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_font_sizes/font_size = 11
+text = "text here"
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
 
 [node name="Label" type="Label" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer3"]
 layout_mode = 2
 text = "direction"
+label_settings = ExtResource("2_v87ia")
 
 [node name="tEdit_dir" type="TextEdit" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer3"]
 layout_mode = 2
@@ -101,12 +107,12 @@ size_flags_horizontal = 8
 [node name="btN_delete" type="Button" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
-icon = ExtResource("2_exewd")
+icon = ExtResource("2_x2wh5")
 
 [node name="btN_new" type="Button" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
-icon = ExtResource("3_fpyvw")
+icon = ExtResource("3_7c52g")
 
 [connection signal="text_changed" from="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer2/tEdit_line" to="." method="_on_t_edit_line_text_changed"]
 [connection signal="text_changed" from="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer3/tEdit_dir" to="." method="_on_t_edit_dir_text_changed"]

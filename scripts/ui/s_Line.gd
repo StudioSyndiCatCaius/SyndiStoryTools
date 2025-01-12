@@ -17,8 +17,6 @@ func _ready():
 	pass
 
 func _REBUILD():
-	print('godo: '+str(event_data))
-
 	N_line.text=event_data.get('line',"")
 	N_direction.text=event_data.get('direction',"")
 	

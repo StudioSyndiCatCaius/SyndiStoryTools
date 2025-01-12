@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TreeExplorerFilter" load_steps=3 format=3 uid="uid://cm50cpyq21w3"]
+
+[ext_resource type="Texture2D" uid="uid://eb3jrldh8ijy" path="res://assets/icons/Icon_File_T.PNG" id="1_qyc7o"]
+[ext_resource type="Script" path="res://scripts/res/s_res_FileTreeFilter.gd" id="2_erebf"]
+
+
+[resource]
+script = ExtResource("2_erebf")
+icon = ExtResource("1_qyc7o")
+extension = "dlg"

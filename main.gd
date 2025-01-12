@@ -27,7 +27,6 @@ func _process(delta):
 
 
 func _on_tree_file_selected(path):
-	print('gizmo')
 	if APP.PATH_IsFolder(path):
 		current_path=path
 	else:
@@ -63,16 +62,11 @@ func LINE_AddDefault():
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-			print(get_viewport().gui_get_focus_owner())
-			# if N_FileTree.has_focus():
-			#	N_Popup_Tree.visible=true
-			#	N_Popup_Tree.position=get_global_mouse_position()
-				
+			pass
 
 
 func create_sceneFile(path):
 	var new_file_path=path+"new_file.json"
-	print(new_file_path)
 	APP.FILE_CreateJson({
 		events=[{speaker='',line=''}]
 	},new_file_path)
@@ -115,7 +109,6 @@ func _on_ie_save_input_start():
 	if FileAccess.file_exists(N_graph_active.linked_file):
 		ActiveGraph_Save(N_graph_active.linked_file)
 	else:
-		print('fake')
 		N_DialogSave.visible=true
 
 func _on_dialog_save_flow_confirmed():

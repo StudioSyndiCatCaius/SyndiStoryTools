@@ -1,0 +1,147 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfcko3patuw46"]
+
+[ext_resource type="Script" path="res://scripts/ui/s_TableEditor.gd" id="1_ek14c"]
+[ext_resource type="PackedScene" uid="uid://bfs5ubp0tg25i" path="res://scripts/ui/s_TableItem.tscn" id="1_n3xt6"]
+
+[node name="STableEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ek14c")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 5
+
+[node name="STableItem" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem2" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem3" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem4" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem5" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem6" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem7" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem8" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem9" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem10" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem11" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem12" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem13" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem14" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem15" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem16" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem17" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem18" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem19" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem20" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem21" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem22" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem23" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem24" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="STableItem25" parent="GridContainer" instance=ExtResource("1_n3xt6")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
