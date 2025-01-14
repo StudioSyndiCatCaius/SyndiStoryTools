@@ -1,87 +1,54 @@
 extends Node
 
-var L = LuaAPI.new()
+var lua = LuaAPI.new()
+
+var app_config={}
+
+var _D={}
+var GraphNode_Types={}
+
+var project_path=""
+var project_data={}
+var kino=''
+
+func Project_GetBasePath():
+	return SynString.Split(project_path,"/",true)[0]
+
+func Project_GetSubDir(dir_name: String):
+	return Project_GetBasePath()+"/"+dir_name+"/"
 
 func _ready():
-	for i in SynFile.FILES_ListInDirectory("res://lua/nodes/",'lua'):
-		var lua_data = L.do_file(i)
-		if lua_data.has('id'):
-			GraphNode_Types[lua_data['id']]=lua_data
+	var config_path=APP.APP_GetRootDir('saved')+'config.json'
+	APP.app_config=SynFile.FILE_LoadAsJson(config_path)
+	
+	Project_Load(app_config['recent_projects'][0])
 
-# ----------------------------------------------------------------
-# Types
-# ----------------------------------------------------------------
+func Project_Load(path: String):
+	GraphNode_Types={}
+	_D={}
+	project_path=path
+	project_data=JSON.parse_string(FileAccess.get_file_as_string(project_path))
+	if project_data==null:return
+	
+	# LOAD LUA LIBS
+	lua.bind_libraries(["base", "table", "string"])
+	
+	for p in project_data.get('directories',[]):
+		var real_path=p
+		if p=="./":
+			real_path=Project_GetBasePath()
+			# load database
+			for i in SynFile.FILES_ListInDirectory(real_path+"/data/",'lua'):
+				var lua_data = lua.do_file(i)
 
-# ----------------------------------------------------------------
-# DATA
-# ----------------------------------------------------------------
-var GraphNode_Types={}
-var GraphNode_TypesB={
-	start={
-		name="Start",
-		inputs=[],
-		outputs=[{}],
-		color=Color.RED,
-		size=Vector2(100,50),
-		schema={flag='String'},
-	},
-	finish={
-		name="Finish",
-		inputs=[{}],
-		outputs=[],
-		color=Color.RED,
-		size=Vector2(100,50),
-		schema={flag='String'}
-	},
-	event={
-		name="Event",
-		inputs=[{}],
-		outputs=[{}],
-		color=Color.SKY_BLUE,
-		size=Vector2(200,100),
-		schema={events='Events'},
-	},
-	choice_hub={
-		name="Choice Hub",
-		inputs=[{}],
-		outputs=[{}],
-		allowed_outputs=['choice'],
-		color=Color.MEDIUM_SEA_GREEN,
-		size=Vector2(100,50),
-	},
-	choice={
-		name="Choice",
-		inputs=[{}],
-		outputs=[{}],
-		allowed_inputs=['choice_hub'],
-		color=Color.PALE_GREEN,
-		size=Vector2(200,100),
-		DATA={Text=""}
-		
-	},
-	to_hub={
-		name="To HUB",
-		inputs=[{}],
-		outputs=[],
-		color=Color.BURLYWOOD,
-		size=Vector2(150,75),
-	},
-	hub={
-		name="HUB",
-		inputs=[],
-		outputs=[{}],
-		color=Color.BURLYWOOD,
-		size=Vector2(150,75),
-	},
-	to_scene={
-		name="To Scene",
-		inputs=[{}],
-		outputs=[],
-		color=Color.MEDIUM_PURPLE,
-		size=Vector2(200,100),
-		is_button=true, button_name="Open"
-	},
-}
+			for i in SynFile.FILES_ListInDirectory(SynFile.Dir_Root()+"lua/nodes/",'lua'):
+				var lua_data = lua.do_file(i)
+				if lua_data.has('id'):
+					GraphNode_Types[lua_data['id']]=lua_data
+	
+	var new_D=lua.pull_variant('_D')
+	if new_D is Dictionary:
+		_D = lua.pull_variant('_D')
 
 
 # ----------------------------------------------------------------
@@ -127,3 +94,10 @@ func PATH_IsFile(path: String) -> bool:
 
 func PATH_IsFolder(path: String) -> bool:
 	return DirAccess.dir_exists_absolute(path)
+
+func IMPORT_Image(path: String) -> ImageTexture:
+	return SynFile.IMPORT_ImageAsTexture(Project_GetSubDir('/img/')+path)
+
+
+func APP_GetRootDir(dir: String)-> String:
+	return SynFile.Dir_Root()+dir+'/'

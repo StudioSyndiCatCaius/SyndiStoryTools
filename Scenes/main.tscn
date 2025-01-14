@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://boh08xsb6o6lg"]
+[gd_scene load_steps=7 format=3 uid="uid://boh08xsb6o6lg"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_ed7fo"]
+[ext_resource type="Script" path="res://Scenes/main.gd" id="1_ed7fo"]
 [ext_resource type="PackedScene" uid="uid://b0rl5uog1qaqh" path="res://scripts/ui/s_FileExplorer.tscn" id="2_uu65a"]
 [ext_resource type="PackedScene" uid="uid://bsgccnic1keka" path="res://scripts/ui/s_FlowGraph.tscn" id="3_8ddlg"]
 [ext_resource type="Resource" uid="uid://cm50cpyq21w3" path="res://resources/FileFilters/r_TreeFilter_dlg.tres" id="3_s7fvh"]
 [ext_resource type="Script" path="res://addons/SynLib/Components/cmp_InputEvent.gd" id="4_surlj"]
+[ext_resource type="PackedScene" uid="uid://bi2yqd77qvj1p" path="res://scripts/ui/s_ScreenplayDisplay.tscn" id="5_5snow"]
 
 [node name="main" type="Control" node_paths=PackedStringArray("N_FileTree", "N_Tabs_FlowGraphs")]
 layout_mode = 3
@@ -14,8 +15,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ed7fo")
-N_FileTree = NodePath("VBoxContainer/MarginContainer/HBoxContainer/FileExplorer")
-N_Tabs_FlowGraphs = NodePath("VBoxContainer/MarginContainer/HBoxContainer/TabContainer")
+N_FileTree = NodePath("VBoxContainer/TabStates/FlowEditor/HBoxContainer/FileExplorer")
+N_Tabs_FlowGraphs = NodePath("VBoxContainer/TabStates/FlowEditor/HBoxContainer/TabContainer")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -52,7 +53,11 @@ item_count = 1
 popup/item_0/text = "New Scene"
 popup/item_0/id = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="TabStates" type="TabContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FlowEditor" type="MarginContainer" parent="VBoxContainer/TabStates"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 5
@@ -60,20 +65,24 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabStates/FlowEditor"]
 layout_mode = 2
 
-[node name="FileExplorer" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_uu65a")]
+[node name="FileExplorer" parent="VBoxContainer/TabStates/FlowEditor/HBoxContainer" instance=ExtResource("2_uu65a")]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 Filter_Files = Array[Resource("res://scripts/res/s_res_FileTreeFilter.gd")]([ExtResource("3_s7fvh")])
 root_path = "res://dlg/"
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabStates/FlowEditor/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="FlowEditor" parent="VBoxContainer/MarginContainer/HBoxContainer/TabContainer" instance=ExtResource("3_8ddlg")]
+[node name="FlowEditor" parent="VBoxContainer/TabStates/FlowEditor/HBoxContainer/TabContainer" instance=ExtResource("3_8ddlg")]
+layout_mode = 2
+
+[node name="Screenplay" parent="VBoxContainer/TabStates" instance=ExtResource("5_5snow")]
+visible = false
 layout_mode = 2
 
 [node name="IE_NewScene" type="Node" parent="."]
@@ -94,7 +103,7 @@ root_subfolder = "res://dlg/"
 filters = PackedStringArray("*.dlg")
 use_native_dialog = true
 
-[connection signal="file_selected" from="VBoxContainer/MarginContainer/HBoxContainer/FileExplorer" to="." method="_on_tree_file_selected"]
+[connection signal="file_selected" from="VBoxContainer/TabStates/FlowEditor/HBoxContainer/FileExplorer" to="." method="_on_tree_file_selected"]
 [connection signal="input_start" from="IE_NewScene" to="." method="_on_ie_new_scene_input_start"]
 [connection signal="input_start" from="IE_Save" to="." method="_on_ie_save_input_start"]
 [connection signal="confirmed" from="Dialog_SaveFlow" to="." method="_on_dialog_save_flow_confirmed"]

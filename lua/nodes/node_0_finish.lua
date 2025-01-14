@@ -3,7 +3,7 @@ return {
 	name="Finish",
 	inputs={{}},
 	outputs={},
-	color={r=1,g=0,b=0,a=1},
+	color={r=0.5,g=0.5,b=0.5,a=1},
 	size={x=100,y=75},
 	schema={flag='String'},
 

@@ -1,0 +1,100 @@
+{
+  "connections": [
+    {
+      "from_node": "qZUmUDb6iEXG",
+      "from_port": 0,
+      "to_node": "gZybHAiOu3dL",
+      "to_port": 0
+    },
+    {
+      "from_node": "EegX5Qv8a3WH",
+      "from_port": 0,
+      "to_node": "6DAa7u1sgAla",
+      "to_port": 0
+    },
+    {
+      "from_node": "EegX5Qv8a3WH",
+      "from_port": 0,
+      "to_node": "xAkQViHaxtC2",
+      "to_port": 0
+    },
+    {
+      "from_node": "gZybHAiOu3dL",
+      "from_port": 0,
+      "to_node": "EegX5Qv8a3WH",
+      "to_port": 0
+    },
+    {
+      "from_node": "xAkQViHaxtC2",
+      "from_port": 0,
+      "to_node": "tBlmARdpqdVl",
+      "to_port": 0
+    },
+    {
+      "from_node": "6DAa7u1sgAla",
+      "from_port": 0,
+      "to_node": "tBlmARdpqdVl",
+      "to_port": 0
+    }
+  ],
+  "nodes": [
+    {
+      "data": {
+        "flag": "start"
+      },
+      "name": "qZUmUDb6iEXG",
+      "position": "(0, 0)",
+      "type": "start"
+    },
+    {
+      "data": {
+        "events": [
+          {
+            "line": "Hello",
+            "speaker": "Judith"
+          },
+          {
+            "direction": "",
+            "line": "How are you?",
+            "speaker": "Judith"
+          }
+        ]
+      },
+      "name": "gZybHAiOu3dL",
+      "position": "(200, -20)",
+      "type": "event"
+    },
+    {
+      "data": {
+        "Text": "Bad"
+      },
+      "name": "6DAa7u1sgAla",
+      "position": "(760, 200)",
+      "type": "choice"
+    },
+    {
+      "data": {
+
+      },
+      "name": "EegX5Qv8a3WH",
+      "position": "(480, 140)",
+      "type": "choice_hub"
+    },
+    {
+      "data": {
+        "flag": "end"
+      },
+      "name": "tBlmARdpqdVl",
+      "position": "(1080, -60)",
+      "type": "finish"
+    },
+    {
+      "data": {
+        "Text": "Good"
+      },
+      "name": "xAkQViHaxtC2",
+      "position": "(740, 80)",
+      "type": "choice"
+    }
+  ]
+}

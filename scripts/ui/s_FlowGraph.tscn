@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bsgccnic1keka"]
+[gd_scene load_steps=7 format=3 uid="uid://bsgccnic1keka"]
 
 [ext_resource type="PackedScene" uid="uid://bw1xfx8ar1w1u" path="res://scripts/ui/s_FlowNode.tscn" id="1_nj3uu"]
 [ext_resource type="Script" path="res://scripts/ui/s_FlowGraph.gd" id="1_oq7qw"]
 [ext_resource type="Texture2D" uid="uid://b1102mskhkuq2" path="res://assets/icons/t_ico_CrossRed.png" id="2_wkn06"]
 [ext_resource type="Script" path="res://addons/SynLib/Components/cmp_InputEvent.gd" id="3_jbaqn"]
+[ext_resource type="LabelSettings" uid="uid://cikmk58axt0ym" path="res://resources/labels/r_label_toggleNotif.tres" id="4_bsslc"]
+[ext_resource type="PackedScene" uid="uid://iysovyd4ehlo" path="res://scripts/ui/s_ScreenplayEvent.tscn" id="6_8smhk"]
 
-[node name="FlowEditor" type="Control" node_paths=PackedStringArray("N_Root_properties")]
+[node name="FlowEditor" type="Control" node_paths=PackedStringArray("N_Root_properties", "N_NodeButtonBOx", "N_FlowGraph", "N_Root_FlowGraph", "N_Notif", "N_ScreenplayEvent")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,9 +15,29 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_oq7qw")
-N_Root_properties = NodePath("vb/HBoxContainer/HSplit/ColorRect/MarginContainer/VBoxContainer/ColorRect/propertyContainer")
+N_Root_properties = NodePath("FlowEditor/TabContainer/FlowEditor/HSplit/ColorRect/MarginContainer/VBoxContainer/ColorRect/propertyContainer")
+N_NodeButtonBOx = NodePath("FlowEditor/TabContainer/FlowEditor/Tree_DragNodes")
+N_FlowGraph = NodePath("FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph")
+N_Root_FlowGraph = NodePath("FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph")
+N_Notif = NodePath("FlowEditor/ColorRect2/txt_notification")
+N_ScreenplayEvent = NodePath("FlowEditor/TabContainer/Screenplay/ScrollContainer/MarginContainer/SScreenplayEvent")
 
-[node name="vb" type="VBoxContainer" parent="."]
+[node name="PopupMenu" type="PopupMenu" parent="."]
+
+[node name="IE_Duplicate" type="Node" parent="."]
+script = ExtResource("3_jbaqn")
+input_key = 68
+require_ctrl = true
+
+[node name="IE_Drag_break" type="Node" parent="." node_paths=PackedStringArray("VisibilityBind")]
+script = ExtResource("3_jbaqn")
+input_key = 4194305
+VisibilityBind = [NodePath("../FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/MarginContainer/VBoxContainer/notif_delete")]
+
+[node name="Timer_NotifDisplay" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="FlowEditor" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,12 +45,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="vb"]
+[node name="ColorRect" type="ColorRect" parent="FlowEditor"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 color = Color(1, 1, 1, 0.117647)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="vb/ColorRect"]
+[node name="HBoxContainer" type="HBoxContainer" parent="FlowEditor/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,30 +58,36 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="btn_close" type="Button" parent="vb/ColorRect/HBoxContainer"]
+[node name="btn_close" type="Button" parent="FlowEditor/ColorRect/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
 icon = ExtResource("2_wkn06")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="vb"]
+[node name="TabContainer" type="TabContainer" parent="FlowEditor"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="FlowEditor" type="HBoxContainer" parent="FlowEditor/TabContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Tree_DragNodes" type="Tree" parent="vb/HBoxContainer"]
+[node name="Tree_DragNodes" type="Tree" parent="FlowEditor/TabContainer/FlowEditor"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 hide_root = true
 
-[node name="HSplit" type="HSplitContainer" parent="vb/HBoxContainer"]
+[node name="HSplit" type="HSplitContainer" parent="FlowEditor/TabContainer/FlowEditor"]
 layout_mode = 2
 size_flags_horizontal = 3
+split_offset = -100
 
-[node name="Root_Graph" type="Control" parent="vb/HBoxContainer/HSplit"]
+[node name="Root_Graph" type="Control" parent="FlowEditor/TabContainer/FlowEditor/HSplit"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SFlowGraph" type="GraphEdit" parent="vb/HBoxContainer/HSplit/Root_Graph"]
+[node name="SFlowGraph" type="GraphEdit" parent="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -68,7 +96,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 
-[node name="SFlowNode" parent="vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph" instance=ExtResource("1_nj3uu")]
+[node name="SFlowNode" parent="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" instance=ExtResource("1_nj3uu")]
 layout_mode = 0
 offset_left = 132.0
 offset_top = 146.0
@@ -77,7 +105,7 @@ offset_bottom = 296.0
 mouse_filter = 1
 position_offset = Vector2(132, 146)
 
-[node name="SFlowNode2" parent="vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph" instance=ExtResource("1_nj3uu")]
+[node name="SFlowNode2" parent="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" instance=ExtResource("1_nj3uu")]
 layout_mode = 0
 offset_left = 558.0
 offset_top = 255.0
@@ -86,13 +114,36 @@ offset_bottom = 405.0
 mouse_filter = 1
 position_offset = Vector2(558, 255)
 
-[node name="ColorRect" type="ColorRect" parent="vb/HBoxContainer/HSplit"]
+[node name="MarginContainer" type="MarginContainer" parent="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="notif_delete" type="Label" parent="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Break Connection"
+label_settings = ExtResource("4_bsslc")
+
+[node name="ColorRect" type="ColorRect" parent="FlowEditor/TabContainer/FlowEditor/HSplit"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(1, 1, 1, 0.0784314)
 
-[node name="MarginContainer" type="MarginContainer" parent="vb/HBoxContainer/HSplit/ColorRect"]
+[node name="MarginContainer" type="MarginContainer" parent="FlowEditor/TabContainer/FlowEditor/HSplit/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -104,15 +155,15 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="vb/HBoxContainer/HSplit/ColorRect/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="FlowEditor/TabContainer/FlowEditor/HSplit/ColorRect/MarginContainer"]
 layout_mode = 2
 
-[node name="ColorRect" type="ColorRect" parent="vb/HBoxContainer/HSplit/ColorRect/MarginContainer/VBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="FlowEditor/TabContainer/FlowEditor/HSplit/ColorRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 color = Color(1, 1, 1, 0.0784314)
 
-[node name="propertyContainer" type="MarginContainer" parent="vb/HBoxContainer/HSplit/ColorRect/MarginContainer/VBoxContainer/ColorRect"]
+[node name="propertyContainer" type="MarginContainer" parent="FlowEditor/TabContainer/FlowEditor/HSplit/ColorRect/MarginContainer/VBoxContainer/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -124,12 +175,36 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="ColorRect2" type="ColorRect" parent="vb"]
+[node name="Screenplay" type="Control" parent="FlowEditor/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="FlowEditor/TabContainer/Screenplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="FlowEditor/TabContainer/Screenplay/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="SScreenplayEvent" parent="FlowEditor/TabContainer/Screenplay/ScrollContainer/MarginContainer" instance=ExtResource("6_8smhk")]
+layout_mode = 2
+
+[node name="ColorRect2" type="ColorRect" parent="FlowEditor"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 color = Color(0, 0, 0, 0.282353)
 
-[node name="txt_notification" type="Label" parent="vb/ColorRect2"]
+[node name="txt_notification" type="Label" parent="FlowEditor/ColorRect2"]
 visible = false
 layout_mode = 1
 anchors_preset = 2
@@ -142,29 +217,22 @@ offset_bottom = -4.0
 grow_vertical = 0
 text = "label_here"
 
-[node name="PopupMenu" type="PopupMenu" parent="."]
-
-[node name="IE_" type="Node" parent="."]
-script = ExtResource("3_jbaqn")
-
-[node name="IE_2" type="Node" parent="."]
-script = ExtResource("3_jbaqn")
-
-[node name="Timer_NotifDisplay" type="Timer" parent="."]
-wait_time = 3.0
-
-[connection signal="pressed" from="vb/ColorRect/HBoxContainer/btn_close" to="." method="_on_btn_close_pressed"]
-[connection signal="button_clicked" from="vb/HBoxContainer/Tree_DragNodes" to="." method="_on_tree_drag_nodes_button_clicked"]
-[connection signal="item_activated" from="vb/HBoxContainer/Tree_DragNodes" to="." method="_on_tree_drag_nodes_item_activated"]
-[connection signal="item_selected" from="vb/HBoxContainer/Tree_DragNodes" to="." method="_on_tree_drag_nodes_item_selected"]
-[connection signal="connection_drag_ended" from="vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_connection_drag_ended"]
-[connection signal="connection_drag_started" from="vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_connection_drag_started"]
-[connection signal="connection_request" from="vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_connection_request"]
-[connection signal="connection_to_empty" from="vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_connection_to_empty"]
-[connection signal="delete_nodes_request" from="vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_delete_nodes_request"]
-[connection signal="disconnection_request" from="vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_disconnection_request"]
-[connection signal="duplicate_nodes_request" from="vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_duplicate_nodes_request"]
-[connection signal="node_deselected" from="vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_node_deselected"]
-[connection signal="node_selected" from="vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_node_selected"]
 [connection signal="index_pressed" from="PopupMenu" to="." method="_on_popup_menu_index_pressed"]
+[connection signal="input_start" from="IE_Duplicate" to="." method="_on_ie_duplicate_input_start"]
+[connection signal="input_start" from="IE_Drag_break" to="." method="_on_ie_drag_break_input_start"]
+[connection signal="input_stop" from="IE_Drag_break" to="." method="_on_ie_drag_break_input_stop"]
 [connection signal="timeout" from="Timer_NotifDisplay" to="." method="_on_timer_notif_display_timeout"]
+[connection signal="pressed" from="FlowEditor/ColorRect/HBoxContainer/btn_close" to="." method="_on_btn_close_pressed"]
+[connection signal="tab_clicked" from="FlowEditor/TabContainer" to="." method="_on_tab_container_tab_clicked"]
+[connection signal="button_clicked" from="FlowEditor/TabContainer/FlowEditor/Tree_DragNodes" to="." method="_on_tree_drag_nodes_button_clicked"]
+[connection signal="item_activated" from="FlowEditor/TabContainer/FlowEditor/Tree_DragNodes" to="." method="_on_tree_drag_nodes_item_activated"]
+[connection signal="item_selected" from="FlowEditor/TabContainer/FlowEditor/Tree_DragNodes" to="." method="_on_tree_drag_nodes_item_selected"]
+[connection signal="connection_drag_ended" from="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_connection_drag_ended"]
+[connection signal="connection_drag_started" from="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_connection_drag_started"]
+[connection signal="connection_request" from="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_connection_request"]
+[connection signal="connection_to_empty" from="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_connection_to_empty"]
+[connection signal="delete_nodes_request" from="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_delete_nodes_request"]
+[connection signal="disconnection_request" from="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_disconnection_request"]
+[connection signal="duplicate_nodes_request" from="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_duplicate_nodes_request"]
+[connection signal="node_deselected" from="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_node_deselected"]
+[connection signal="node_selected" from="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" to="." method="_on_s_flow_graph_node_selected"]

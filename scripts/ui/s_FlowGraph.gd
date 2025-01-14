@@ -9,15 +9,18 @@ var N_PropertyEdit
 
 var linked_file='_nil'
 
-@export var N_Root_properties: Control
+var SelectedNodes: Array[Flow_Node]
 
-@onready var N_NodeButtonBOx: Tree=$vb/HBoxContainer/Tree_DragNodes
-@onready var N_FlowGraph=$vb/HBoxContainer/HSplit/Root_Graph/SFlowGraph
+@export var N_Root_properties: Control
+@export var N_NodeButtonBOx: Tree
+@export var N_FlowGraph: GraphEdit
+@export var N_Root_FlowGraph: Control
+@export var N_Notif: Label
+@export var N_ScreenplayEvent:wg_ScreenplayEvent
+
 @onready var CLASS_FlowNode= preload("res://scripts/ui/s_FlowNode.tscn")
 @onready var N_Popup_NewNode=$PopupMenu
-@onready var N_Root_FlowGraph=$vb/HBoxContainer/Root_Graph
 
-@onready var N_Notif=$vb/ColorRect2/txt_notification
 @onready var N_Timer_Notify=$Timer_NotifDisplay
 
 func _ready():
@@ -29,16 +32,21 @@ func _ready():
 		N_Popup_NewNode.add_item(i)
 		var item = N_NodeButtonBOx.create_item(DragNodeRoot)
 		item.set_text(0,i)
+		item.set_tooltip_text(0,APP.GraphNode_Types[i].get('tooltip',""))
+	
+	var guid_start=SynGuid.GUID_New()
+	var guid_end=SynGuid.GUID_New()
+	var guid_event=SynGuid.GUID_New()
 	
 	GRAPH_Load_FromDict({
 		nodes=[
-			{type='start',position="(0,0)", name='n_start', data={flag='start'}},
-			{type='event',position="(200,-20)", name='n_event1',data={events=[{}]}},
-			{type='finish',position="(500,0)", name='n_end',data={flag='end'}},
+			{type='start',position="(0,0)", name=guid_start, data={flag='start'}},
+			{type='event',position="(200,-20)", name=guid_event,data={events=[{}]}},
+			{type='finish',position="(500,0)", name=guid_end,data={flag='end'}},
 		],
 		connections=[
-			{from_node='n_start',from_port=0,to_node='n_event1',to_port=0,},
-			{from_node='n_event1',from_port=0,to_node='n_end',to_port=0,},
+			{from_node=guid_start,from_port=0,to_node=guid_event,to_port=0,},
+			{from_node=guid_event,from_port=0,to_node=guid_end,to_port=0,},
 		]
 	})
 
@@ -106,10 +114,10 @@ func _on_tree_drag_nodes_item_activated():
 		n_dragDummy=FlowDropNode.new()
 		N_Root_FlowGraph.add_child(n_dragDummy)
 	else:
-		
 		var spawn_pos= N_FlowGraph.scroll_offset+Vector2(150,150)+SynMath.Vector2_RandomSingle(50)
 		var type_name=N_NodeButtonBOx.get_selected().get_text(0)
-		Node_Create(type_name,spawn_pos)
+		var new_node=Node_Create(type_name,spawn_pos,SynGuid.GUID_New())
+
 
 # ==================================================================
 # Flow Graph -- File
@@ -149,7 +157,7 @@ func GRAPH_Load_FromDict(data: Dictionary):
 # ==================================================================
 # Flow Graph -- NODES
 # ==================================================================
-func Node_Create(type: String,  position: Vector2, node_name: String='',data:Dictionary={}):
+func Node_Create(type: String,  position: Vector2, node_name: String='',data:Dictionary={})->Flow_Node:
 	var new_node: GraphNode = CLASS_FlowNode.instantiate()
 
 	N_FlowGraph.add_child(new_node)
@@ -167,15 +175,17 @@ func Node_Create(type: String,  position: Vector2, node_name: String='',data:Dic
 			N_FlowGraph.connect_node(N_DragginNode,N_DragginPort,new_node.name,0)
 		else:
 			N_FlowGraph.connect_node(new_node.name,0,N_DragginNode,N_DragginPort)
-
+	return new_node
 
 var propertyEditorTypes=[
 	preload("res://scripts/ui/s_Properties.tscn"),
 ]
 
 func _on_s_flow_graph_node_selected(node):
+	SelectedNodes.push_back(node)
+	
 	if N_PropertyEdit!=null:
-		N_PropertyEdit.queue_free()
+		N_PropertyEdit.free()
 	var type_data=APP.GraphNode_Types[node.type]
 	var editor_type=propertyEditorTypes[type_data.get('editor_type',0)]
 	N_PropertyEdit=editor_type.instantiate()
@@ -185,8 +195,9 @@ func _on_s_flow_graph_node_selected(node):
 	N_Root_properties.add_child(N_PropertyEdit)
 
 func _on_s_flow_graph_node_deselected(node):
-	if N_PropertyEdit:
-		N_PropertyEdit.queue_free()
+	SelectedNodes.erase(node)
+	if N_PropertyEdit !=null:
+		N_PropertyEdit.free()
 
 
 # ==================================================================
@@ -213,10 +224,21 @@ func _on_s_flow_graph_connection_drag_ended():
 	N_DragginNode=null
 
 
+var b_shouldBreak=false
 func _on_s_flow_graph_delete_nodes_request(nodes):
 	for c in N_FlowGraph.get_children():
 		if nodes.has(c.name):
-			c.queue_free()
+			c.free()
+
+func _on_s_flow_graph_connection_to_empty(from_node, from_port, release_position):
+	if b_shouldBreak:
+		SynNode.GraphNode_DisconnectNode(N_FlowGraph,N_FlowGraph.get_node(N_DragginNode),true,false)
+
+func _on_ie_drag_break_input_start():
+	b_shouldBreak=true
+
+func _on_ie_drag_break_input_stop():
+	b_shouldBreak=false
 
 # ==================================================================
 # INPUTS
@@ -241,8 +263,22 @@ func _on_button_pressed():
 	SynNode.GraphNode_DisconnectAll(N_FlowGraph)
 
 func _on_btn_close_pressed():
-	queue_free()
+	free()
 
-func _on_s_flow_graph_connection_to_empty(from_node, from_port, release_position):
-	SynNode.GraphNode_DisconnectNode(N_FlowGraph,N_FlowGraph.get_node(from_node),true,false)
 
+
+func _on_ie_duplicate_input_start():
+	var new_nodes=[]
+	for i in SelectedNodes:
+		if i!=null:
+			var new_n=Node_Create(i.type,i.position_offset+Vector2(10,10),SynGuid.GUID_New(),i.DATA.duplicate(true))
+			new_nodes.push_back(new_n)
+			i.selected=false
+	
+	for i in new_nodes:
+		i.selected=true
+
+
+func _on_tab_container_tab_clicked(tab):
+	if tab==1:
+		N_ScreenplayEvent.DATA_Set(DATA_GetDictionary())

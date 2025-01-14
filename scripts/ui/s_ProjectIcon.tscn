@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3 uid="uid://dv3vdgxko12sv"]
+
+[ext_resource type="Script" path="res://scripts/ui/s_ProjectIcon.gd" id="1_vumb2"]
+[ext_resource type="Texture2D" uid="uid://b1102mskhkuq2" path="res://assets/icons/t_ico_CrossRed.png" id="2_mju11"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_e6lid"]
+font_size = 11
+font_color = Color(0.737255, 0.847059, 0.929412, 1)
+
+[node name="SProjectIcon" type="Control" node_paths=PackedStringArray("N_Btn", "N_txt_path")]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vumb2")
+N_Btn = NodePath("Button")
+N_txt_path = NodePath("Button/txt_path")
+
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+icon = ExtResource("2_mju11")
+
+[node name="txt_path" type="Label" parent="Button"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -41.0
+offset_right = 58.0
+offset_bottom = -18.0
+grow_vertical = 0
+text = "text"
+label_settings = SubResource("LabelSettings_e6lid")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

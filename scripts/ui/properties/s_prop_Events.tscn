@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://deoyt40sbtsqo"]
+[gd_scene load_steps=8 format=3 uid="uid://deoyt40sbtsqo"]
 
 [ext_resource type="Script" path="res://scripts/ui/properties/s_prop_Events.gd" id="1_xsd1e"]
 [ext_resource type="Texture2D" uid="uid://ie7x6sfqkfd1" path="res://assets/icons/t_ico_PlusGreen.png" id="2_01t2p"]
+[ext_resource type="Texture2D" uid="uid://b1102mskhkuq2" path="res://assets/icons/t_ico_CrossRed.png" id="3_cis54"]
 [ext_resource type="PackedScene" uid="uid://c204qs3s1lpn3" path="res://scripts/ui/s_Line.tscn" id="3_hh2m0"]
+[ext_resource type="Texture2D" uid="uid://dbfq5vm3lwaq3" path="res://assets/icons/input/t_input_ctrl.png" id="4_gaqdh"]
+[ext_resource type="Texture2D" uid="uid://bemk57d5enofc" path="res://assets/icons/input/t_input_enter.png" id="5_mqifm"]
+[ext_resource type="Texture2D" uid="uid://xqcfe8py7fau" path="res://assets/icons/input/t_input_del.png" id="6_3s76o"]
 
 [node name="EventEditor" type="MarginContainer" node_paths=PackedStringArray("N_EventList")]
 anchors_preset = 15
@@ -12,15 +16,18 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
 script = ExtResource("1_xsd1e")
-N_EventList = NodePath("ColorRect/ScrollContainer/VBoxContainer")
+N_EventList = NodePath("ColorRect/ColorRect2/MarginContainer/ScrollContainer/VBoxContainer")
 
 [node name="ColorRect" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="ColorRect"]
 layout_mode = 2
 
 [node name="ColorRect" type="ColorRect" parent="ColorRect"]
@@ -38,33 +45,114 @@ grow_vertical = 2
 
 [node name="BTN_AutosetKeys" type="Button" parent="ColorRect/ColorRect/HBoxContainer"]
 layout_mode = 2
-text = "Autoset Kets"
+text = "Autoset Keys"
 
 [node name="BTN_NewLine" type="Button" parent="ColorRect/ColorRect/HBoxContainer"]
 layout_mode = 2
 text = "New Line"
 icon = ExtResource("2_01t2p")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="ColorRect"]
+[node name="BTN_ClearAll" type="Button" parent="ColorRect/ColorRect/HBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
+text = "Clear All"
+icon = ExtResource("3_cis54")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/ScrollContainer"]
+[node name="_spacer_" type="Control" parent="ColorRect/ColorRect/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SLine" parent="ColorRect/ScrollContainer/VBoxContainer" instance=ExtResource("3_hh2m0")]
+[node name="ColorRect2" type="ColorRect" parent="ColorRect"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 0.329412)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/ColorRect2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ColorRect/ColorRect2/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/ColorRect2/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SLine" parent="ColorRect/ColorRect2/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_hh2m0")]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="SLine2" parent="ColorRect/ScrollContainer/VBoxContainer" instance=ExtResource("3_hh2m0")]
+[node name="SLine2" parent="ColorRect/ColorRect2/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_hh2m0")]
 layout_mode = 2
 
-[node name="SLine3" parent="ColorRect/ScrollContainer/VBoxContainer" instance=ExtResource("3_hh2m0")]
+[node name="SLine3" parent="ColorRect/ColorRect2/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_hh2m0")]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="SLine4" parent="ColorRect/ScrollContainer/VBoxContainer" instance=ExtResource("3_hh2m0")]
+[node name="SLine4" parent="ColorRect/ColorRect2/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_hh2m0")]
 layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("4_gaqdh")
+
+[node name="Label" type="Label" parent="ColorRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "+"
+
+[node name="TextureRect2" type="TextureRect" parent="ColorRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("5_mqifm")
+
+[node name="Label2" type="Label" parent="ColorRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "New Line"
+
+[node name="VSeparator" type="VSeparator" parent="ColorRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="ColorRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("4_gaqdh")
+
+[node name="Label3" type="Label" parent="ColorRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "+"
+
+[node name="TextureRect4" type="TextureRect" parent="ColorRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_3s76o")
+
+[node name="Label4" type="Label" parent="ColorRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Delete Line"
 
 [connection signal="pressed" from="ColorRect/ColorRect/HBoxContainer/BTN_NewLine" to="." method="_on_btn_new_line_pressed"]
+[connection signal="pressed" from="ColorRect/ColorRect/HBoxContainer/BTN_ClearAll" to="." method="_on_btn_clear_all_pressed"]

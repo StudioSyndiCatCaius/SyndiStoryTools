@@ -14,8 +14,6 @@ var type_data={}
 func _ready():
 	size=Vector2(250,150)
 
-
-
 func _REBUILD():
 	if APP.GraphNode_Types.has(type):
 		type_data=APP.GraphNode_Types[type]
@@ -30,8 +28,24 @@ func _REBUILD():
 		else:
 			N_Btn.visible=false
 		
-		set_slot_enabled_left(0,type_data.inputs.size()>0)
-		set_slot_enabled_right(0,type_data.outputs.size()>0)
+		var far=[]
+		far.size()
+		
+		for index in type_data.inputs.size():
+			print('tingo: '+str(index)+'/'+str(type_data.inputs.size()))
+			var pin_data=type_data.inputs[index]
+			get_child(index).visible=true
+			set_slot_enabled_left(index,true)
+			set_slot_color_left(index,SynType.conv_DictToColor(pin_data.get('color',{})))
+			
+		
+		for index in type_data.outputs.size():
+			var pin_data=type_data.outputs[index]
+			print('do the output: '+str(index))
+			get_child(index).visible=true
+			set_slot_enabled_right(index,true)
+			set_slot_color_right(index,SynType.conv_DictToColor(pin_data.get('color',{})))
+
 
 func _process(delta):
 	if type_data.has('GetDisplayText'):
@@ -39,4 +53,9 @@ func _process(delta):
 		var output=mthd.call(type_data,DATA)
 		if typeof(output)==TYPE_STRING:
 			N_label.text=output
-
+	
+	if type_data.has('GetNodeTitle'):
+		var mthd=type_data['GetNodeTitle']
+		var output=mthd.call(type_data,DATA)
+		if typeof(output)==TYPE_STRING and output!='':
+			title=output

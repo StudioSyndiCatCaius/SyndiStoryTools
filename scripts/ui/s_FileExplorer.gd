@@ -9,6 +9,7 @@ signal file_selected(path: String)
 @export var root_path = "res://"  # Change this to your desired root path
 
 func _ready():
+	root_path=APP.Project_GetSubDir('dlg')
 	# Initialize the tree
 	RootTree.set_hide_root(true)
 	RootTree.columns = 1

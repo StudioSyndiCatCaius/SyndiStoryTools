@@ -12,6 +12,8 @@ var type_widgets={
 	float=preload("res://scripts/ui/properties/s_prop_float.tscn"),
 	bool=preload("res://scripts/ui/properties/s_prop_bool.tscn"),
 	Events=preload("res://scripts/ui/properties/s_prop_Events.tscn"),
+	Script=preload("res://scripts/ui/properties/s_prop_script.tscn"),
+	Code=preload("res://scripts/ui/properties/s_prop_code.tscn"),
 }
 
 func _ready():

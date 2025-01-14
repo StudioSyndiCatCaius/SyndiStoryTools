@@ -1,5 +1,14 @@
 extends Node
 
+var imports_img={}
+
+
+func is_packaged_exe() -> bool:
+	# The executable path will point to the Godot editor if running in editor
+	var exe_path = OS.get_executable_path().get_base_dir().to_lower()
+	# Check if it contains "godot" in the path (editor) or not (packaged game)
+	return not ("godot" in exe_path)
+
 
 func FILES_ListInDirectory(path: String, extension: String = "", recursive: bool = false) -> Array:
 
@@ -36,3 +45,24 @@ func FILES_ListInDirectory(path: String, extension: String = "", recursive: bool
 	dir.list_dir_end()
 	
 	return files
+
+
+func Dir_Root() -> String:
+	if is_packaged_exe():
+		return OS.get_executable_path().get_base_dir()
+	return "res://"
+
+func IMPORT_ImageAsTexture(path) -> ImageTexture:
+	if imports_img.has(path):
+		return imports_img[path]
+	var img=Image.new()
+	img.load(path)
+	var imgT=ImageTexture.new()
+	imgT.set_image(img)
+	imports_img[path]=imgT
+	return imgT
+
+func FILE_LoadAsJson(path: String) -> Dictionary:
+	var file = FileAccess.get_file_as_string(path)
+	var dict = JSON.parse_string(file)
+	return dict

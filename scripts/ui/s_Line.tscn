@@ -1,12 +1,54 @@
-[gd_scene load_steps=5 format=3 uid="uid://c204qs3s1lpn3"]
+[gd_scene load_steps=12 format=3 uid="uid://c204qs3s1lpn3"]
 
 [ext_resource type="Script" path="res://scripts/ui/s_Line.gd" id="1_f8lne"]
+[ext_resource type="Texture2D" uid="uid://eb3jrldh8ijy" path="res://assets/icons/Icon_File_T.PNG" id="2_ri4pi"]
 [ext_resource type="LabelSettings" uid="uid://53oytumnww6s" path="res://resources/labels/r_label_ParamName.tres" id="2_v87ia"]
 [ext_resource type="Texture2D" uid="uid://b1102mskhkuq2" path="res://assets/icons/t_ico_CrossRed.png" id="2_x2wh5"]
 [ext_resource type="Texture2D" uid="uid://ie7x6sfqkfd1" path="res://assets/icons/t_ico_PlusGreen.png" id="3_7c52g"]
+[ext_resource type="FontFile" uid="uid://dy8eu8ogrex34" path="res://resources/fonts/CourierPrime-Regular.ttf" id="4_76wpl"]
+[ext_resource type="Script" path="res://addons/SynLib/Components/cmp_InputEvent.gd" id="5_35bbj"]
+[ext_resource type="CodeHighlighter" uid="uid://3pwyt2xkocfl" path="res://resources/syntax/syntaxHighlight_lua.tres" id="5_hj6tk"]
 
-[node name="SLine" type="Control" node_paths=PackedStringArray("N_line", "N_direction")]
-custom_minimum_size = Vector2(0, 100)
+[sub_resource type="Animation" id="Animation_ufjim"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_112uc"]
+resource_name = "appear"
+length = 0.05
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1e-05), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_akxy5"]
+_data = {
+"RESET": SubResource("Animation_ufjim"),
+"appear": SubResource("Animation_112uc")
+}
+
+[node name="SLine" type="Control" node_paths=PackedStringArray("N_speaker", "N_line", "N_direction", "N_script", "N_LineIndex", "N_portrait")]
+custom_minimum_size = Vector2(0, 170)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,8 +56,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_f8lne")
-N_line = NodePath("MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer2/tEdit_line")
-N_direction = NodePath("MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer3/tEdit_dir")
+N_speaker = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer4/opt_speaker")
+N_line = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer2/tEdit_line")
+N_direction = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3/tEdit_dir")
+N_script = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3/tEdit_CODE")
+N_LineIndex = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/txt_ind")
+N_portrait = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer4/img_po")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -43,14 +89,19 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ColorRect/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ColorRect/MarginContainer"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TypeRoot" type="Control" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="box_line" type="HBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control"]
+[node name="box_line" type="HBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,62 +109,133 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="opt_speaker" type="OptionButton" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line"]
-custom_minimum_size = Vector2(150, 0)
+[node name="txt_ind" type="Label" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "-"
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line"]
+layout_mode = 2
+
+[node name="opt_speaker" type="OptionButton" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer4"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-item_count = 2
-popup/item_0/text = "Judith"
-popup/item_0/id = 0
-popup/item_1/text = "Diedre"
-popup/item_1/id = 1
+theme_override_font_sizes/font_size = 13
+fit_to_longest_item = false
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line"]
+[node name="img_po" type="TextureRect" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer4"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_ri4pi")
+expand_mode = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer2"]
+[node name="Label" type="Label" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer2"]
 layout_mode = 2
 text = "line"
 label_settings = ExtResource("2_v87ia")
 
-[node name="tEdit_line" type="TextEdit" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer2"]
+[node name="tEdit_line" type="TextEdit" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_font_sizes/font_size = 11
+focus_neighbor_right = NodePath("../../VBoxContainer3/tEdit_dir")
+theme_override_fonts/font = ExtResource("4_76wpl")
+theme_override_font_sizes/font_size = 19
 text = "text here"
+wrap_mode = 1
+autowrap_mode = 2
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="Label" type="Label" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer3"]
+[node name="Label" type="Label" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3"]
 layout_mode = 2
 text = "direction"
 label_settings = ExtResource("2_v87ia")
 
-[node name="tEdit_dir" type="TextEdit" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer3"]
+[node name="tEdit_dir" type="TextEdit" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_neighbor_left = NodePath("../../VBoxContainer2/tEdit_line")
+theme_override_colors/font_color = Color(0.607843, 0.733333, 0.854902, 1)
+theme_override_font_sizes/font_size = 11
+wrap_mode = 1
+autowrap_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line"]
+[node name="Label2" type="Label" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3"]
+layout_mode = 2
+text = "script"
+label_settings = ExtResource("2_v87ia")
+
+[node name="tEdit_CODE" type="CodeEdit" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_neighbor_left = NodePath("../../VBoxContainer2/tEdit_line")
+theme_override_colors/font_color = Color(0.607843, 0.733333, 0.854902, 1)
+theme_override_font_sizes/font_size = 11
+wrap_mode = 1
+autowrap_mode = 2
+syntax_highlighter = ExtResource("5_hj6tk")
+highlight_current_line = true
+gutters_draw_line_numbers = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line"]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="btN_delete" type="Button" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer"]
+[node name="btN_delete" type="Button" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+tooltip_text = "Delete Line"
 icon = ExtResource("2_x2wh5")
 
-[node name="btN_new" type="Button" parent="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer"]
+[node name="btN_new" type="Button" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+tooltip_text = "New Line aftet this"
 icon = ExtResource("3_7c52g")
 
-[connection signal="text_changed" from="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer2/tEdit_line" to="." method="_on_t_edit_line_text_changed"]
-[connection signal="text_changed" from="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer3/tEdit_dir" to="." method="_on_t_edit_dir_text_changed"]
-[connection signal="pressed" from="MarginContainer/ColorRect/MarginContainer/HBoxContainer/Control/box_line/VBoxContainer/btN_delete" to="." method="_on_bt_n_delete_pressed"]
+[node name="btN_dupe" type="Button" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "Duplicate Line"
+icon = ExtResource("2_ri4pi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_akxy5")
+}
+
+[node name="IE_LineNew" type="Node" parent="." node_paths=PackedStringArray("RequiredFocus")]
+script = ExtResource("5_35bbj")
+input_key = 4194309
+require_ctrl = true
+RequiredFocus = [NodePath("../MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer2/tEdit_line"), NodePath("../MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3/tEdit_dir")]
+
+[node name="IE_LineDelete" type="Node" parent="." node_paths=PackedStringArray("RequiredFocus")]
+script = ExtResource("5_35bbj")
+input_key = 4194312
+require_ctrl = true
+RequiredFocus = [NodePath("../MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer2/tEdit_line"), NodePath("../MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3/tEdit_dir")]
+
+[connection signal="item_selected" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer4/opt_speaker" to="." method="_on_opt_speaker_item_selected"]
+[connection signal="text_changed" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer2/tEdit_line" to="." method="_on_t_edit_line_text_changed"]
+[connection signal="text_changed" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3/tEdit_dir" to="." method="_on_t_edit_dir_text_changed"]
+[connection signal="text_changed" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3/tEdit_CODE" to="." method="_on_t_edit_code_text_changed"]
+[connection signal="pressed" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer/btN_delete" to="." method="_on_bt_n_delete_pressed"]
+[connection signal="pressed" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer/btN_new" to="." method="_on_bt_n_new_pressed"]
+[connection signal="pressed" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer/btN_dupe" to="." method="_on_bt_n_dupe_pressed"]
+[connection signal="input_start" from="IE_LineNew" to="." method="_on_ie_new_line_input_start"]
+[connection signal="input_start" from="IE_LineDelete" to="." method="_on_ie_line_delete_input_start"]

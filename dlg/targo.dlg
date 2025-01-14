@@ -1,0 +1,46 @@
+{
+  "connections": [
+    {
+      "from_node": "kEDxIkFmxhBC",
+      "from_port": 0,
+      "to_node": "xvrMjF8aOREE",
+      "to_port": 0
+    },
+    {
+      "from_node": "xvrMjF8aOREE",
+      "from_port": 0,
+      "to_node": "RIDU9azR3xvl",
+      "to_port": 0
+    }
+  ],
+  "nodes": [
+    {
+      "data": {
+        "flag": "start"
+      },
+      "name": "kEDxIkFmxhBC",
+      "position": "(0, 0)",
+      "type": "start"
+    },
+    {
+      "data": {
+        "events": [
+          {
+
+          }
+        ]
+      },
+      "name": "xvrMjF8aOREE",
+      "position": "(200, -20)",
+      "type": "event"
+    },
+    {
+      "data": {
+        "flag": "end"
+      },
+      "name": "RIDU9azR3xvl",
+      "position": "(500, 0)",
+      "type": "finish"
+    }
+  ]
+}

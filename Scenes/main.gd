@@ -14,6 +14,9 @@ var current_path='res://'
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	N_DialogSave.root_subfolder=APP.Project_GetSubDir('dlg')
+	current_path=APP.Project_GetSubDir('')
 	N_menu_file.get_popup().index_pressed.connect(MenuSelect_File)
 
 func MenuSelect_File(index: int):
@@ -65,17 +68,10 @@ func _input(event):
 			pass
 
 
-func create_sceneFile(path):
-	var new_file_path=path+"new_file.json"
-	APP.FILE_CreateJson({
-		events=[{speaker='',line=''}]
-	},new_file_path)
-	N_FileTree._REBUILD()
-
 
 func _on_popup_menu_index_pressed(index):
 	if index==0:
-		create_sceneFile(current_path)
+		pass
 
 
 func _on_btn_new_line_pressed():
@@ -105,6 +101,7 @@ var N_graph_active: FlowGraph
 # ####################################################################################
 
 func _on_ie_save_input_start():
+	print('tt')
 	N_graph_active = N_Tabs_FlowGraphs.get_children()[N_Tabs_FlowGraphs.current_tab]
 	if FileAccess.file_exists(N_graph_active.linked_file):
 		ActiveGraph_Save(N_graph_active.linked_file)
