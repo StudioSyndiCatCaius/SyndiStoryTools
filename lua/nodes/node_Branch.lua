@@ -9,9 +9,12 @@ return {
 	}},
 	color={r=1,g=0.9,b=0.9,a=1},
 	size={x=170,y=120},
-	schema={Text='Code'},
+	schema={condition='Code',comment='String'},
+	meta={
+		comment={size=100}
+	},
 
 	GetDisplayText=function (self,data)
-		return data.Text
+		return data.condition
 	end
 }

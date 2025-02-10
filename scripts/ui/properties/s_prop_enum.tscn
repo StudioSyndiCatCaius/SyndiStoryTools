@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://dauhcjb5xseij"]
+
+[ext_resource type="Script" path="res://scripts/ui/properties/s_prop_enum.gd" id="1_2jduh"]
+
+[node name="SPropText" type="Control" node_paths=PackedStringArray("N_ValueEdit", "N_label")]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2jduh")
+N_ValueEdit = NodePath("HBoxContainer/OptionButton")
+N_label = NodePath("HBoxContainer/Label")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "name"
+
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="item_selected" from="HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]

@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bemk57d5enofc" path="res://assets/icons/input/t_input_enter.png" id="5_mqifm"]
 [ext_resource type="Texture2D" uid="uid://xqcfe8py7fau" path="res://assets/icons/input/t_input_del.png" id="6_3s76o"]
 
-[node name="EventEditor" type="MarginContainer" node_paths=PackedStringArray("N_EventList")]
+[node name="EventEditor" type="MarginContainer" node_paths=PackedStringArray("N_EventList", "N_KeyOffsetStart")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -22,6 +22,7 @@ theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 script = ExtResource("1_xsd1e")
 N_EventList = NodePath("ColorRect/ColorRect2/MarginContainer/ScrollContainer/VBoxContainer")
+N_KeyOffsetStart = NodePath("ColorRect/ColorRect/HBoxContainer/SpinBox_oFFSET")
 
 [node name="ColorRect" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 25)
@@ -31,7 +32,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="ColorRect" type="ColorRect" parent="ColorRect"]
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 color = Color(1, 1, 1, 0.0392157)
 
@@ -45,15 +46,22 @@ grow_vertical = 2
 
 [node name="BTN_AutosetKeys" type="Button" parent="ColorRect/ColorRect/HBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
 text = "Autoset Keys"
+
+[node name="SpinBox_oFFSET" type="SpinBox" parent="ColorRect/ColorRect/HBoxContainer"]
+layout_mode = 2
+prefix = "start-"
 
 [node name="BTN_NewLine" type="Button" parent="ColorRect/ColorRect/HBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = "New Line"
 icon = ExtResource("2_01t2p")
 
 [node name="BTN_ClearAll" type="Button" parent="ColorRect/ColorRect/HBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = "Clear All"
 icon = ExtResource("3_cis54")
 
@@ -154,5 +162,6 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Delete Line"
 
+[connection signal="pressed" from="ColorRect/ColorRect/HBoxContainer/BTN_AutosetKeys" to="." method="_on_btn_autoset_keys_pressed"]
 [connection signal="pressed" from="ColorRect/ColorRect/HBoxContainer/BTN_NewLine" to="." method="_on_btn_new_line_pressed"]
 [connection signal="pressed" from="ColorRect/ColorRect/HBoxContainer/BTN_ClearAll" to="." method="_on_btn_clear_all_pressed"]

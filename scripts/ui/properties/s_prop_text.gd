@@ -4,7 +4,9 @@ extends wg_PropertyBase
 
 
 
+
 func _init_value():
+	custom_minimum_size.y=_GetMetaValue('size',30)
 	default_value=''
 	N_ValueEdit.text=Value_Get()
 

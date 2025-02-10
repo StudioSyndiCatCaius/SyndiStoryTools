@@ -8,6 +8,7 @@ var N_DragginPort
 var N_PropertyEdit
 
 var linked_file='_nil'
+var quickCreateNodeKeys={}
 
 var SelectedNodes: Array[Flow_Node]
 
@@ -16,15 +17,23 @@ var SelectedNodes: Array[Flow_Node]
 @export var N_FlowGraph: GraphEdit
 @export var N_Root_FlowGraph: Control
 @export var N_Notif: Label
-@export var N_ScreenplayEvent:wg_ScreenplayEvent
+@export var N_Screenplay:wg_ScreenplayDisplay
+@export var N_eText_summary: TextEdit
 
-@onready var CLASS_FlowNode= preload("res://scripts/ui/s_FlowNode.tscn")
+@onready var REF_FlowNode= preload("res://scripts/ui/graph/s_FlowNode.tscn")
+@onready var REF_FlowComment= preload("res://scripts/ui/graph/s_grahpNode_comment.tscn")
+
 @onready var N_Popup_NewNode=$PopupMenu
 
 @onready var N_Timer_Notify=$Timer_NotifDisplay
 
 func _ready():
-	name="untitled"
+	quickCreateNodeKeys[KEY_E]='event'
+	quickCreateNodeKeys[KEY_C]='choice'
+	quickCreateNodeKeys[KEY_H]='HUB'
+	quickCreateNodeKeys[KEY_J]='ToHUB'
+	
+	name="untitled*"
 	var DragNodeRoot = N_NodeButtonBOx.create_item()
 	
 	for i in APP.GraphNode_Types.keys():
@@ -41,7 +50,7 @@ func _ready():
 	GRAPH_Load_FromDict({
 		nodes=[
 			{type='start',position="(0,0)", name=guid_start, data={flag='start'}},
-			{type='event',position="(200,-20)", name=guid_event,data={events=[{}]}},
+			{type='script',position="(200,-20)", name=guid_event,data={}},
 			{type='finish',position="(500,0)", name=guid_end,data={flag='end'}},
 		],
 		connections=[
@@ -90,7 +99,9 @@ func DATA_GetDictionary() -> Dictionary:
 	
 	for c in N_FlowGraph.get_connection_list():
 		out['connections'].push_back(c)
-		
+	
+	out['summary']=N_eText_summary.text
+	
 	return out
 
 
@@ -126,21 +137,26 @@ func _on_tree_drag_nodes_item_activated():
 func GRAPH_Save_ToFile(filepath: String):
 	linked_file=filepath
 	var file = FileAccess.open(filepath, FileAccess.WRITE)
+	
 	if file == null:
 		return FileAccess.get_open_error()
+		
 	var data_to_save=DATA_GetDictionary()
 	var json_string = JSON.stringify(data_to_save, "  ")
 	file.store_string(json_string)
 	NOTIFICATION_Add("Saved DLG: "+filepath,Color.LAWN_GREEN)
+	GRAPH_SetNameFromFile()
 	return OK
 
 func GRAPH_Load_FromFile(filepath: String):
 	NOTIFICATION_Add("Loaded DLG: "+filepath,Color.LAWN_GREEN)
 	linked_file=filepath
-	name=filepath.get_file().get_basename()
+	GRAPH_SetNameFromFile()
 	var in_data=JSON.parse_string(FileAccess.get_file_as_string(filepath))
 	GRAPH_Load_FromDict(in_data)
 
+func GRAPH_SetNameFromFile():
+	name=linked_file.get_file().get_basename()
 
 func GRAPH_Load_FromDict(data: Dictionary):
 	for i in N_FlowGraph.get_children():
@@ -153,12 +169,14 @@ func GRAPH_Load_FromDict(data: Dictionary):
 	
 	for i in data['connections']:
 		N_FlowGraph.connect_node(i['from_node'],i['from_port'],i['to_node'],i['to_port'],)
+		
+	N_eText_summary.text=data.get('summary',"")
 
 # ==================================================================
 # Flow Graph -- NODES
 # ==================================================================
-func Node_Create(type: String,  position: Vector2, node_name: String='',data:Dictionary={})->Flow_Node:
-	var new_node: GraphNode = CLASS_FlowNode.instantiate()
+func Node_Create(type: String,  position: Vector2, node_name: String='',data:Dictionary={},)->Flow_Node:
+	var new_node: GraphNode = REF_FlowNode.instantiate()
 
 	N_FlowGraph.add_child(new_node)
 	new_node.position_offset=position
@@ -186,13 +204,15 @@ func _on_s_flow_graph_node_selected(node):
 	
 	if N_PropertyEdit!=null:
 		N_PropertyEdit.free()
-	var type_data=APP.GraphNode_Types[node.type]
-	var editor_type=propertyEditorTypes[type_data.get('editor_type',0)]
-	N_PropertyEdit=editor_type.instantiate()
-	
-	N_PropertyEdit._SETUP(type_data.get('schema',{}),node.DATA)
-	
-	N_Root_properties.add_child(N_PropertyEdit)
+	if node is Flow_Node:
+		var type_data=APP.GraphNode_Types[node.type]
+		var editor_type=propertyEditorTypes[type_data.get('editor_type',0)]
+		N_PropertyEdit=editor_type.instantiate()
+		
+		N_PropertyEdit.META=type_data.get('meta',{})
+		N_PropertyEdit._SETUP(type_data.get('schema',{}),node.DATA)
+		
+		N_Root_properties.add_child(N_PropertyEdit)
 
 func _on_s_flow_graph_node_deselected(node):
 	SelectedNodes.erase(node)
@@ -230,15 +250,6 @@ func _on_s_flow_graph_delete_nodes_request(nodes):
 		if nodes.has(c.name):
 			c.free()
 
-func _on_s_flow_graph_connection_to_empty(from_node, from_port, release_position):
-	if b_shouldBreak:
-		SynNode.GraphNode_DisconnectNode(N_FlowGraph,N_FlowGraph.get_node(N_DragginNode),true,false)
-
-func _on_ie_drag_break_input_start():
-	b_shouldBreak=true
-
-func _on_ie_drag_break_input_stop():
-	b_shouldBreak=false
 
 # ==================================================================
 # INPUTS
@@ -250,6 +261,13 @@ func _input(event):
 				pass
 				#N_Popup_NewNode.popup()
 				#N_Popup_NewNode.position=get_global_mouse_position()
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			for k in quickCreateNodeKeys.keys():
+				if Input.is_key_pressed(k):
+					var spawn_pos=get_global_mouse_position()
+					spawn_pos+=N_FlowGraph.scroll_offset
+					Node_Create(quickCreateNodeKeys[k],spawn_pos)
+					break
 
 
 func _on_popup_menu_index_pressed(index):
@@ -263,7 +281,7 @@ func _on_button_pressed():
 	SynNode.GraphNode_DisconnectAll(N_FlowGraph)
 
 func _on_btn_close_pressed():
-	free()
+	queue_free()
 
 
 
@@ -281,4 +299,10 @@ func _on_ie_duplicate_input_start():
 
 func _on_tab_container_tab_clicked(tab):
 	if tab==1:
-		N_ScreenplayEvent.DATA_Set(DATA_GetDictionary())
+		N_Screenplay.__DATA_Set(DATA_GetDictionary())
+
+# Comment
+func _on_btn_add_comment_pressed():
+	var inst: GraphNode=REF_FlowComment.instantiate()
+	N_FlowGraph.add_child(inst)
+	inst.global_position=SynNode.GraphEdit_GetCenter(N_FlowGraph)

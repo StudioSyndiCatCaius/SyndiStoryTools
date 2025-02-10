@@ -3,9 +3,13 @@ class_name wg_PropertyBase
 
 @export var N_label: Label
 
+var owner_META={}
 var owner_DATA={}
 var owner_field=''
 var default_value=0
+
+func _GetMetaValue(field: String, default):
+	return owner_META.get(owner_field,{}).get(field,default)
 
 func _SETUP(data,field):
 	owner_DATA=data

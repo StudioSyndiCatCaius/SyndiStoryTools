@@ -4,6 +4,7 @@ class_name PropertyEdit_Common
 @export var N_VBox: VBoxContainer
 
 var DATA={}
+var META={}
 var Schema={}
 
 var type_widgets={
@@ -14,6 +15,7 @@ var type_widgets={
 	Events=preload("res://scripts/ui/properties/s_prop_Events.tscn"),
 	Script=preload("res://scripts/ui/properties/s_prop_script.tscn"),
 	Code=preload("res://scripts/ui/properties/s_prop_code.tscn"),
+	Enum=preload("res://scripts/ui/properties/s_prop_enum.tscn"),
 }
 
 func _ready():
@@ -30,7 +32,9 @@ func _REBUILD():
 		var in_type=Schema[i]
 		var new_prop=type_widgets[in_type].instantiate()
 		N_VBox.add_child(new_prop)
+		new_prop.owner_META=META.duplicate(true)
 		new_prop._SETUP(DATA,i)
+		
 
 
 

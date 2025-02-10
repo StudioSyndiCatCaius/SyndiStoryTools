@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bsgccnic1keka"]
+[gd_scene load_steps=8 format=3 uid="uid://bsgccnic1keka"]
 
 [ext_resource type="Script" path="res://scripts/ui/s_FlowGraph.gd" id="1_oq7qw"]
 [ext_resource type="Texture2D" uid="uid://b1102mskhkuq2" path="res://assets/icons/t_ico_CrossRed.png" id="2_wkn06"]
 [ext_resource type="Script" path="res://addons/SynLib/Components/cmp_InputEvent.gd" id="3_jbaqn"]
 [ext_resource type="PackedScene" uid="uid://bw1xfx8ar1w1u" path="res://scripts/ui/graph/s_FlowNode.tscn" id="4_6vc2v"]
+[ext_resource type="PackedScene" uid="uid://dtkjxo7emw18k" path="res://scripts/ui/graph/s_grahpNode_comment.tscn" id="5_60rig"]
 [ext_resource type="LabelSettings" uid="uid://53oytumnww6s" path="res://resources/labels/r_label_ParamName.tres" id="6_1kw4x"]
 [ext_resource type="PackedScene" uid="uid://bi2yqd77qvj1p" path="res://scripts/ui/s_ScreenplayDisplay.tscn" id="6_aky7e"]
 
@@ -20,7 +21,7 @@ N_NodeButtonBOx = NodePath("FlowEditor/TabContainer/FlowEditor/Tree_DragNodes")
 N_FlowGraph = NodePath("FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph")
 N_Root_FlowGraph = NodePath("FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph")
 N_Notif = NodePath("FlowEditor/ColorRect2/txt_notification")
-N_Screenplay = NodePath("FlowEditor/TabContainer/SScreenplayDisplay")
+N_Screenplay = NodePath("FlowEditor/TabContainer/Screenplay/MarginContainer/ScrollContainer/SScreenplayDisplay")
 N_eText_summary = NodePath("FlowEditor/TabContainer/FlowEditor/HSplit/TabContainer/DialogProperties/MarginContainer/VBoxContainer/eText_summary")
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
@@ -93,8 +94,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
-theme_override_colors/grid_minor = Color(1, 1, 1, 0.0392157)
-theme_override_colors/grid_major = Color(0, 0, 0, 0.662745)
 right_disconnects = true
 
 [node name="SFlowNode" parent="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" instance=ExtResource("4_6vc2v")]
@@ -114,6 +113,12 @@ offset_right = 808.0
 offset_bottom = 405.0
 mouse_filter = 1
 position_offset = Vector2(558, 255)
+
+[node name="Control" parent="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph/SFlowGraph" instance=ExtResource("5_60rig")]
+layout_mode = 1
+offset_right = -363.0
+offset_bottom = -503.0
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="FlowEditor/TabContainer/FlowEditor/HSplit/Root_Graph"]
 layout_mode = 1
@@ -207,9 +212,27 @@ label_settings = ExtResource("6_1kw4x")
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="SScreenplayDisplay" parent="FlowEditor/TabContainer" instance=ExtResource("6_aky7e")]
+[node name="Screenplay" type="Control" parent="FlowEditor/TabContainer"]
 visible = false
 layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="FlowEditor/TabContainer/Screenplay"]
+layout_mode = 2
+offset_right = 1280.0
+offset_bottom = 621.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ScrollContainer" type="ScrollContainer" parent="FlowEditor/TabContainer/Screenplay/MarginContainer"]
+layout_mode = 2
+
+[node name="SScreenplayDisplay" parent="FlowEditor/TabContainer/Screenplay/MarginContainer/ScrollContainer" instance=ExtResource("6_aky7e")]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="ColorRect2" type="ColorRect" parent="FlowEditor"]
 custom_minimum_size = Vector2(0, 30)

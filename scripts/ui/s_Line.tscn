@@ -47,7 +47,7 @@ _data = {
 "appear": SubResource("Animation_112uc")
 }
 
-[node name="SLine" type="Control" node_paths=PackedStringArray("N_speaker", "N_line", "N_direction", "N_script", "N_LineIndex", "N_portrait")]
+[node name="SLine" type="Control" node_paths=PackedStringArray("N_speaker", "N_line", "N_direction", "N_LineKey", "N_script", "N_LineIndex", "N_portrait")]
 custom_minimum_size = Vector2(0, 170)
 layout_mode = 3
 anchors_preset = 15
@@ -59,6 +59,7 @@ script = ExtResource("1_f8lne")
 N_speaker = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer4/opt_speaker")
 N_line = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer2/tEdit_line")
 N_direction = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3/tEdit_dir")
+N_LineKey = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer4/tEdit_key")
 N_script = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3/tEdit_CODE")
 N_LineIndex = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/txt_ind")
 N_portrait = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer4/img_po")
@@ -117,6 +118,12 @@ text = "-"
 [node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line"]
 layout_mode = 2
 
+[node name="tEdit_key" type="TextEdit" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer4"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+placeholder_text = "key"
+
 [node name="opt_speaker" type="OptionButton" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer4"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -148,7 +155,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_neighbor_right = NodePath("../../VBoxContainer3/tEdit_dir")
 theme_override_fonts/font = ExtResource("4_76wpl")
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 15
 text = "text here"
 wrap_mode = 1
 autowrap_mode = 2
@@ -230,6 +237,7 @@ input_key = 4194312
 require_ctrl = true
 RequiredFocus = [NodePath("../MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer2/tEdit_line"), NodePath("../MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3/tEdit_dir")]
 
+[connection signal="text_changed" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer4/tEdit_key" to="." method="_on_t_edit_key_text_changed"]
 [connection signal="item_selected" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer4/opt_speaker" to="." method="_on_opt_speaker_item_selected"]
 [connection signal="text_changed" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer2/tEdit_line" to="." method="_on_t_edit_line_text_changed"]
 [connection signal="text_changed" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TypeRoot/box_line/VBoxContainer3/tEdit_dir" to="." method="_on_t_edit_dir_text_changed"]

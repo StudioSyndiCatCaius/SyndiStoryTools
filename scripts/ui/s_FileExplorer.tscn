@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://blg3jck7a3s5x" path="res://resources/FileFilters/r_TreeFilter_Folder.tres" id="2_152ph"]
 [ext_resource type="Resource" uid="uid://b75w4e2122y6h" path="res://resources/FileFilters/r_TreeFilter_Json.tres" id="3_bblpj"]
 
-[node name="FileExplorer" type="Control" node_paths=PackedStringArray("RootTree")]
+[node name="FileExplorer" type="Control" node_paths=PackedStringArray("RootTree", "N_Popup_File", "N_Popup_Folder")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,9 +12,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dig65")
+Filter_Files = Array[Resource("res://scripts/res/s_res_FileTreeFilter.gd")]([ExtResource("3_bblpj")])
 RootTree = NodePath("MarginContainer/ColorRect/MarginContainer/VBoxContainer/Tree")
 Filter_Folder = ExtResource("2_152ph")
-Filter_Files = Array[Resource("res://scripts/res/s_res_FileTreeFilter.gd")]([ExtResource("3_bblpj")])
+N_Popup_File = NodePath("MarginContainer/ColorRect/MarginContainer/Popup_File")
+N_Popup_Folder = NodePath("MarginContainer/ColorRect/MarginContainer/Popup_Folder")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -53,21 +55,41 @@ theme_override_constants/margin_bottom = 5
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 
 [node name="btn_refresh" type="Button" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
 text = "Refresh"
+
+[node name="btn_OpenExplor" type="Button" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Open in Explorer"
 
 [node name="Tree" type="Tree" parent="MarginContainer/ColorRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/title_button_font_size = 10
+columns = 3
+column_titles_visible = true
+allow_rmb_select = true
 
-[node name="PopupMenu" type="PopupMenu" parent="MarginContainer/ColorRect/MarginContainer"]
+[node name="Popup_File" type="PopupMenu" parent="MarginContainer/ColorRect/MarginContainer"]
+size = Vector2i(113, 100)
+item_count = 1
+item_0/text = "Delete File"
+item_0/id = 0
+
+[node name="Popup_Folder" type="PopupMenu" parent="MarginContainer/ColorRect/MarginContainer"]
 size = Vector2i(113, 100)
 item_count = 1
 item_0/text = "New Scene"
 item_0/id = 0
 
 [connection signal="pressed" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/btn_refresh" to="." method="_on_btn_refresh_pressed"]
+[connection signal="pressed" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/btn_OpenExplor" to="." method="_on_btn_open_explor_pressed"]
+[connection signal="item_mouse_selected" from="MarginContainer/ColorRect/MarginContainer/VBoxContainer/Tree" to="." method="_on_tree_item_mouse_selected"]
+[connection signal="id_pressed" from="MarginContainer/ColorRect/MarginContainer/Popup_File" to="." method="_on_popup_file_id_pressed"]

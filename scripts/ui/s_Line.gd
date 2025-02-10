@@ -14,11 +14,14 @@ signal onDuplicate(instigator: Control)
 @export var N_speaker: OptionButton
 @export var N_line: TextEdit
 @export var N_direction: TextEdit
+@export var N_LineKey:TextEdit
 @export var N_script: CodeEdit
 @export var N_LineIndex:Label
 @export var N_portrait:TextureRect
 
 @onready var animator=$AnimationPlayer
+
+
 
 func _ready():
 	animator.play("appear")
@@ -29,6 +32,9 @@ func _process(delta):
 func FOCUS_Give():
 	N_line.grab_focus()
 
+func SetKey(key: String):
+	N_LineKey.text=key
+	event_data['key']=N_LineKey.text
 
 func _REBUILD():
 	#)
@@ -42,6 +48,7 @@ func _REBUILD():
 	N_line.text=event_data.get('line',"")
 	N_direction.text=event_data.get('direction',"")
 	N_script.text=event_data.get('script',"")
+	N_LineKey.text=event_data.get('key',"")
 	
 	var speaker_name=event_data.get('speaker',"")
 	for i in range(N_speaker.item_count):
@@ -63,6 +70,10 @@ func _on_t_edit_line_text_changed():
 
 func _on_t_edit_code_text_changed():
 	event_data['script']=N_script.text
+
+func _on_t_edit_key_text_changed():
+	event_data['key']=N_LineKey.text
+
 
 func _on_opt_speaker_item_selected(index):
 	event_data['speaker']=N_speaker.get_item_text(index)
@@ -86,4 +97,6 @@ func _on_ie_line_delete_input_start():
 
 func _on_bt_n_dupe_pressed():
 	onDuplicate.emit(self)
+
+
 

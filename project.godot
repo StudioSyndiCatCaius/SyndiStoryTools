@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="SyndiStoryTools"
-run/main_scene="res://Scenes/main.tscn"
+run/main_scene="res://Scenes/scene_ProjectSelect.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
@@ -41,6 +41,7 @@ enabled=PackedStringArray("res://addons/SynApp/plugin.cfg", "res://addons/SynLib
 [file_customization]
 
 folder_colors={
+"res://DOCS/": "gray",
 "res://Scenes/": "purple",
 "res://addons/": "gray",
 "res://assets/": "teal",

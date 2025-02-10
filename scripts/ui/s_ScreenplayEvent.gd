@@ -7,9 +7,9 @@ var DATA={}
 
 func DATA_Set(data: Dictionary):
 	APP.NODE_ClearAllChildren(N_EventBox)
-	
 	DATA=data
-	for i in DATA.get('events',[]):
-		var new_node=preload("res://scripts/ui/s_ScreenplayLine.tscn").instantiate()
-		DATA_Set(i)
+	var scene_ref=preload("res://scripts/ui/s_ScreenplayLine.tscn")
+	for i in DATA['data'].get('events',[]):
+		var new_node=scene_ref.instantiate()
+		new_node.DATA_Set(i)
 		N_EventBox.add_child(new_node)

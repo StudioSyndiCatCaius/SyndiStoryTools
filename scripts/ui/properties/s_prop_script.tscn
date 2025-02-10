@@ -8,7 +8,7 @@ symbol_color = Color(1, 1, 1, 1)
 function_color = Color(1, 1, 1, 1)
 member_variable_color = Color(1, 1, 1, 1)
 
-[node name="SPropScript" type="Control"]
+[node name="SPropScript" type="Control" node_paths=PackedStringArray("N_ValueEdit", "N_label")]
 custom_minimum_size = Vector2(0, 500)
 layout_mode = 3
 anchors_preset = 15
@@ -17,6 +17,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_y7a4m")
+N_ValueEdit = NodePath("VBoxContainer/CodeEdit")
+N_label = NodePath("VBoxContainer/Label")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1

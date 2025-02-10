@@ -1,31 +1,46 @@
-[gd_scene load_steps=3 format=3 uid="uid://yk6xu6qmpc70"]
+[gd_scene load_steps=6 format=3 uid="uid://yk6xu6qmpc70"]
 
 [ext_resource type="Script" path="res://scripts/ui/s_ScreenplayLine.gd" id="1_y2vld"]
+[ext_resource type="FontFile" uid="uid://dy8eu8ogrex34" path="res://resources/fonts/CourierPrime-Regular.ttf" id="2_m6cit"]
+[ext_resource type="FontFile" uid="uid://ctebw032j4v8x" path="res://resources/fonts/CourierPrime-Bold.ttf" id="3_p8ocu"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0r2v2"]
+font = ExtResource("2_m6cit")
+font_color = Color(1, 1, 1, 0.733333)
 
 [sub_resource type="LabelSettings" id="LabelSettings_fsl5f"]
+font = ExtResource("3_p8ocu")
 font_size = 17
 
-[node name="SScreenplayLine" type="Control"]
-layout_mode = 3
+[node name="SScreenplayLine" type="VBoxContainer" node_paths=PackedStringArray("N_txtDir", "N_txtSpeaker", "N_txtLine")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -616.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_y2vld")
+N_txtDir = NodePath("VBoxContainer/MarginContainer/txt_direction")
+N_txtSpeaker = NodePath("VBoxContainer/txt_speaker")
+N_txtLine = NodePath("VBoxContainer/TextEdit_line")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 78.0
-grow_horizontal = 2
-
-[node name="txt_direction" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 5
+
+[node name="txt_direction" type="Label" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 6
 text = "text goes here"
+label_settings = SubResource("LabelSettings_0r2v2")
 autowrap_mode = 2
 
 [node name="txt_speaker" type="Label" parent="VBoxContainer"]
@@ -35,8 +50,18 @@ label_settings = SubResource("LabelSettings_fsl5f")
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="txt_line" type="Label" parent="VBoxContainer"]
+[node name="TextEdit_line" type="TextEdit" parent="VBoxContainer"]
+custom_minimum_size = Vector2(600, 50)
 layout_mode = 2
-text = "text goes here"
-horizontal_alignment = 1
-autowrap_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_colors/background_color = Color(0.168627, 0.247059, 0.337255, 0.34902)
+theme_override_colors/font_color = Color(0.784314, 0.784314, 0.635294, 1)
+theme_override_colors/caret_background_color = Color(0, 0, 0, 0)
+theme_override_fonts/font = ExtResource("2_m6cit")
+theme_override_font_sizes/font_size = 21
+text = "text herer text herer text herer text herer text herer text herer text herer text herer text herer text herer "
+wrap_mode = 1
+scroll_fit_content_height = true
+
+[connection signal="text_changed" from="VBoxContainer/TextEdit_line" to="." method="_on_text_edit_line_text_changed"]

@@ -1,20 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://bi2yqd77qvj1p"]
+[gd_scene load_steps=3 format=3 uid="uid://bi2yqd77qvj1p"]
 
 [ext_resource type="Script" path="res://scripts/ui/s_ScreenplayDisplay.gd" id="1_a3k4i"]
+[ext_resource type="PackedScene" uid="uid://iysovyd4ehlo" path="res://scripts/ui/s_ScreenplayEvent.tscn" id="2_h2oak"]
 
-[node name="SScreenplayDisplay" type="Control"]
-layout_mode = 3
+[node name="SScreenplayDisplay" type="ScrollContainer" node_paths=PackedStringArray("N_Vbox")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_a3k4i")
+N_Vbox = NodePath("VBoxContainer")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SScreenplayEvent" parent="VBoxContainer" instance=ExtResource("2_h2oak")]
+layout_mode = 2
+
+[node name="SScreenplayEvent2" parent="VBoxContainer" instance=ExtResource("2_h2oak")]
+layout_mode = 2
+
+[node name="SScreenplayEvent3" parent="VBoxContainer" instance=ExtResource("2_h2oak")]
+layout_mode = 2

@@ -7,15 +7,17 @@ var current_path='res://'
 @export var N_FileTree:WG_FileExplorer
 @export var N_Popup_Tree: PopupMenu
 @export var N_Tabs_FlowGraphs: TabContainer
-
+@export var N_Screenplay: wg_ScreenplayEvent
 @onready var N_menu_file: MenuButton=$VBoxContainer/ColorRect/MenuBar/menu_file
+var N_graph_active: FlowGraph
+@onready var N_DialogSave=$Dialog_SaveFlow
 
 @onready var CLASS_line=preload("res://scripts/ui/s_Line.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
-	N_DialogSave.root_subfolder=APP.Project_GetSubDir('dlg')
+	var target_path=APP.Project_GetSubDir('dlg',true)
+	N_DialogSave.root_subfolder=target_path
 	current_path=APP.Project_GetSubDir('')
 	N_menu_file.get_popup().index_pressed.connect(MenuSelect_File)
 
@@ -67,12 +69,9 @@ func _input(event):
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 			pass
 
-
-
 func _on_popup_menu_index_pressed(index):
 	if index==0:
 		pass
-
 
 func _on_btn_new_line_pressed():
 	LINE_AddDefault()
@@ -82,8 +81,6 @@ func _on_btn_new_line_pressed():
 # ####################################################################################
 
 func GRAPH_CreateNew(in_name: String='') -> FlowGraph:
-	
-	
 	var new_flow=preload("res://scripts/ui/s_FlowGraph.tscn").instantiate()
 	N_Tabs_FlowGraphs.add_child(new_flow)
 	N_Tabs_FlowGraphs.current_tab+=1
@@ -93,20 +90,24 @@ func GRAPH_CreateNew(in_name: String='') -> FlowGraph:
 func _on_ie_new_scene_input_start():
 	GRAPH_CreateNew()
 
-var N_graph_active: FlowGraph
-@onready var N_DialogSave=$Dialog_SaveFlow
 
 # ####################################################################################
 # SAVE
 # ####################################################################################
 
 func _on_ie_save_input_start():
-	print('tt')
 	N_graph_active = N_Tabs_FlowGraphs.get_children()[N_Tabs_FlowGraphs.current_tab]
 	if FileAccess.file_exists(N_graph_active.linked_file):
 		ActiveGraph_Save(N_graph_active.linked_file)
 	else:
 		N_DialogSave.visible=true
+
+func _on_dialog_save_flow_file_selected(path):
+	var in_path=path
+	if path.get_extension()=="":
+		in_path+=".dlg"
+
+	ActiveGraph_Save(in_path)
 
 func _on_dialog_save_flow_confirmed():
 	var out_path=N_DialogSave.root_subfolder+N_DialogSave.current_dir+N_DialogSave.current_file
@@ -115,3 +116,13 @@ func _on_dialog_save_flow_confirmed():
 func ActiveGraph_Save(path: String):
 	N_graph_active.GRAPH_Save_ToFile(path)
 	N_FileTree._REBUILD()
+
+func _on_tab_states_tab_selected(tab):
+	print('tab change')
+	if tab==1:
+		N_Screenplay.DATA_Set(DATA.duplicate(true))
+
+func _on_tab_states_tab_changed(tab):
+	print('demo')
+
+

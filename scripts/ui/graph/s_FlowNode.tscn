@@ -1,18 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://bw1xfx8ar1w1u"]
+[gd_scene load_steps=7 format=3 uid="uid://bw1xfx8ar1w1u"]
 
-[ext_resource type="StyleBox" uid="uid://ch8g564hovfq" path="res://resources/styles/style_box_FlowNodePanel.tres" id="1_f3xyi"]
-[ext_resource type="StyleBox" uid="uid://bhwhwb7o1yinu" path="res://resources/styles/style_box_FlowNodePanel_select.tres" id="2_w6niq"]
-[ext_resource type="StyleBox" uid="uid://3rucs3xexjic" path="res://resources/styles/style_box_FlowNodeTitle.tres" id="3_4sjnb"]
-[ext_resource type="StyleBox" uid="uid://b2sj6gmpy0aiu" path="res://resources/styles/style_box_FlowNodeTitle_select.tres" id="4_k2sli"]
-[ext_resource type="Script" path="res://scripts/ui/s_FlowNode.gd" id="5_idhyg"]
+[ext_resource type="StyleBox" uid="uid://ch8g564hovfq" path="res://resources/styles/style_box_FlowNodePanel.tres" id="1_sf33o"]
+[ext_resource type="StyleBox" uid="uid://bhwhwb7o1yinu" path="res://resources/styles/style_box_FlowNodePanel_select.tres" id="2_h2aey"]
+[ext_resource type="StyleBox" uid="uid://3rucs3xexjic" path="res://resources/styles/style_box_FlowNodeTitle.tres" id="3_rv6ws"]
+[ext_resource type="StyleBox" uid="uid://b2sj6gmpy0aiu" path="res://resources/styles/style_box_FlowNodeTitle_select.tres" id="4_r2u45"]
+[ext_resource type="Script" path="res://scripts/ui/graph/s_FlowNode.gd" id="5_mvhm3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n4w6u"]
 
 [node name="SFlowNode" type="GraphNode" node_paths=PackedStringArray("N_label")]
 offset_right = 250.0
 offset_bottom = 150.0
-theme_override_styles/panel = ExtResource("1_f3xyi")
-theme_override_styles/panel_selected = ExtResource("2_w6niq")
-theme_override_styles/titlebar = ExtResource("3_4sjnb")
-theme_override_styles/titlebar_selected = ExtResource("4_k2sli")
+theme_override_styles/panel = ExtResource("1_sf33o")
+theme_override_styles/panel_selected = ExtResource("2_h2aey")
+theme_override_styles/titlebar = ExtResource("3_rv6ws")
+theme_override_styles/titlebar_selected = ExtResource("4_r2u45")
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)
@@ -31,7 +33,7 @@ slot/1/right_type = 0
 slot/1/right_color = Color(1, 1, 1, 1)
 slot/1/right_icon = null
 slot/1/draw_stylebox = true
-script = ExtResource("5_idhyg")
+script = ExtResource("5_mvhm3")
 N_label = NodePath("TextEdit/ColorRect/ScrollContainer/MarginContainer/Label")
 
 [node name="TextEdit" type="Control" parent="."]
@@ -53,10 +55,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 11.0
-offset_top = 6.0
-offset_right = -10.0
-offset_bottom = -9.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -69,6 +67,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_n4w6u")
 
 [node name="MarginContainer" type="MarginContainer" parent="TextEdit/ColorRect/ScrollContainer"]
 layout_mode = 2
@@ -89,3 +88,9 @@ autowrap_mode = 2
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,4 +1,5 @@
 return {
+	id='line',
 	name="Line",
 	inputs={{}},
 	outputs={{}},

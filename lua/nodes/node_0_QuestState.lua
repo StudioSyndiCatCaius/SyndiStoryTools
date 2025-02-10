@@ -1,9 +1,9 @@
 return {
-	id='scriptEvent',
-	name="Scripted Event",
+	id='QuestState',
+	name="Quest State",
 	inputs={{}},
 	outputs={{}},
-	color={r=0.2,g=0.8,b=1,a=1},
+	color={r=0.0,g=0.7,b=1,a=1},
 	size={x=200,y=100},
 	schema={comment='String', script='Code',},
 

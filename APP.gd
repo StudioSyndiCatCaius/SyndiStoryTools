@@ -14,14 +14,26 @@ var kino=''
 func Project_GetBasePath():
 	return SynString.Split(project_path,"/",true)[0]
 
-func Project_GetSubDir(dir_name: String):
-	return Project_GetBasePath()+"/"+dir_name+"/"
+func Project_GetSubDir(dir_name: String, create_if_invalid: bool=false):
+	var target=Project_GetBasePath()+"/"+dir_name+"/"
+	if !DirAccess.dir_exists_absolute(target) and create_if_invalid:
+		DirAccess.make_dir_absolute(target)
+	return target
+
+func Project_GetConfigFilePath()-> String:
+	return APP.APP_GetRootDir('saved')+'config.json'
 
 func _ready():
-	var config_path=APP.APP_GetRootDir('saved')+'config.json'
+	var config_path=Project_GetConfigFilePath()
+	print('trying to load config.json from: '+config_path)
 	APP.app_config=SynFile.FILE_LoadAsJson(config_path)
 	
+	app_config['recent_projects']=app_config.get('recent_projects',[])
+	
 	Project_Load(app_config['recent_projects'][0])
+
+func _exit_tree():
+	SynFile.FILE_SaveAsJson(app_config,Project_GetConfigFilePath())
 
 func Project_Load(path: String):
 	GraphNode_Types={}
@@ -31,18 +43,29 @@ func Project_Load(path: String):
 	if project_data==null:return
 	
 	# LOAD LUA LIBS
-	lua.bind_libraries(["base", "table", "string"])
+	lua.bind_libraries(["base", "table", "string", "io"])
 	
 	for p in project_data.get('directories',[]):
 		var real_path=p
 		if p=="./":
 			real_path=Project_GetBasePath()
 			# load database
+			print('---- Begin loading DATA ----')
+			
 			for i in SynFile.FILES_ListInDirectory(real_path+"/data/",'lua'):
+				print('Trying to load .lua file as DATA: '+i)
 				var lua_data = lua.do_file(i)
-
+				print('load result: '+str(lua_data))
+				
+			print('---- Begin loading nodes ----')
+			
 			for i in SynFile.FILES_ListInDirectory(SynFile.Dir_Root()+"lua/nodes/",'lua'):
+				print('Trying to load .lua file as Node: '+i)
 				var lua_data = lua.do_file(i)
+				if lua_data is LuaError:
+					print('load ERROR: '+str(lua_data))
+				else:
+					print('load SUCCESS')
 				if lua_data.has('id'):
 					GraphNode_Types[lua_data['id']]=lua_data
 	
@@ -55,19 +78,7 @@ func Project_Load(path: String):
 # PATH
 # ----------------------------------------------------------------
 
-func FILE_CreateJson(dict: Dictionary, file_path: String) -> Error:
-	# Convert dictionary to JSON string
-	var json_string = JSON.stringify(dict)
-	
-	# Create new file
-	var file = FileAccess.open(file_path, FileAccess.WRITE)
-	if file == null:
-		return FileAccess.get_open_error()
-		
-	# Write to file
-	file.store_string(json_string)
-	
-	return OK
+
 
 
 # ----------------------------------------------------------------

@@ -49,7 +49,7 @@ func FILES_ListInDirectory(path: String, extension: String = "", recursive: bool
 
 func Dir_Root() -> String:
 	if is_packaged_exe():
-		return OS.get_executable_path().get_base_dir()
+		return OS.get_executable_path().get_base_dir()+'/'
 	return "res://"
 
 func IMPORT_ImageAsTexture(path) -> ImageTexture:
@@ -63,6 +63,23 @@ func IMPORT_ImageAsTexture(path) -> ImageTexture:
 	return imgT
 
 func FILE_LoadAsJson(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		# Create default empty dictionary
+		var default_dict = {}
+		# Save it to file
+		var file = FileAccess.open(path, FileAccess.WRITE)
+		if file:
+			file.store_string(JSON.stringify(default_dict))
+			file.close()
+		return default_dict
+	
+	# If file exists, load it as before
 	var file = FileAccess.get_file_as_string(path)
 	var dict = JSON.parse_string(file)
-	return dict
+	return dict if dict else {}
+
+func FILE_SaveAsJson(data: Dictionary, path: String):
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	if file:
+		file.store_string(JSON.stringify(data))
+		file.close()

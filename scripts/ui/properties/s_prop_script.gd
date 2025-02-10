@@ -22,7 +22,7 @@ func _ready():
 	syntax_highlighter.member_variable_color = Color.WHITE
 	
 	# Create color constants
-	var blue_color = Color(0.3, 0.5, 1.0)
+	var blue_color = Color(0.6, 0.7, 1.0)
 	var green_color = Color(0.3, 0.8, 0.3)
 	var red_color = Color(0.8, 0.3, 0.3)
 	var yellow_color = Color(0.8, 0.8, 0.3)
@@ -33,7 +33,7 @@ func _ready():
 	# Add line-based colors (from start character to newline)
 	syntax_highlighter.add_color_region("+", " ", green_color, true)
 	syntax_highlighter.add_color_region("-", " ", red_color, true)
-	syntax_highlighter.add_color_region("#", " ", yellow_color, true)
+	syntax_highlighter.add_color_region("#", " ", Color.WEB_GRAY, true)
 	
 	syntax_highlighter.add_keyword_color("%",Color.AQUA)
 	syntax_highlighter.add_member_keyword_color("hugo",Color.BLUE)

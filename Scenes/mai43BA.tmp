@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://bsgccnic1keka" path="res://scripts/ui/s_FlowGraph.tscn" id="3_8ddlg"]
 [ext_resource type="Resource" uid="uid://cm50cpyq21w3" path="res://resources/FileFilters/r_TreeFilter_dlg.tres" id="3_s7fvh"]
 [ext_resource type="Script" path="res://addons/SynLib/Components/cmp_InputEvent.gd" id="4_surlj"]
-[ext_resource type="PackedScene" uid="uid://bi2yqd77qvj1p" path="res://scripts/ui/s_ScreenplayDisplay.tscn" id="5_eswd5"]
+[ext_resource type="PackedScene" uid="uid://iysovyd4ehlo" path="res://scripts/ui/s_ScreenplayEvent.tscn" id="5_jsj8k"]
 
-[node name="main" type="Control" node_paths=PackedStringArray("N_FileTree", "N_Tabs_FlowGraphs")]
+[node name="main" type="Control" node_paths=PackedStringArray("N_FileTree", "N_Tabs_FlowGraphs", "N_Screenplay")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,8 +15,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ed7fo")
-N_FileTree = NodePath("VBoxContainer/TabStates/FlowEditor/HSplitContainer/FileExplorer")
-N_Tabs_FlowGraphs = NodePath("VBoxContainer/TabStates/FlowEditor/HSplitContainer/TabContainer")
+N_FileTree = NodePath("VBoxContainer/TabStates/FlowEditor/HBoxContainer/FileExplorer")
+N_Tabs_FlowGraphs = NodePath("VBoxContainer/TabStates/FlowEditor/HBoxContainer/TabContainer")
+N_Screenplay = NodePath("VBoxContainer/TabStates/ScrollContainer/SScreenplayEvent")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -65,29 +66,30 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/TabStates/FlowEditor"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabStates/FlowEditor"]
 layout_mode = 2
 
-[node name="FileExplorer" parent="VBoxContainer/TabStates/FlowEditor/HSplitContainer" node_paths=PackedStringArray("N_ConfirmDialog_Delete") instance=ExtResource("2_uu65a")]
-custom_minimum_size = Vector2(300, 0)
+[node name="FileExplorer" parent="VBoxContainer/TabStates/FlowEditor/HBoxContainer" instance=ExtResource("2_uu65a")]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
-N_ConfirmDialog_Delete = NodePath("../../../../../Confim_DeleteFile")
 Filter_Files = Array[Resource("res://scripts/res/s_res_FileTreeFilter.gd")]([ExtResource("3_s7fvh")])
 root_path = "res://dlg/"
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabStates/FlowEditor/HSplitContainer"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabStates/FlowEditor/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="FlowEditor" parent="VBoxContainer/TabStates/FlowEditor/HSplitContainer/TabContainer" instance=ExtResource("3_8ddlg")]
+[node name="FlowEditor" parent="VBoxContainer/TabStates/FlowEditor/HBoxContainer/TabContainer" instance=ExtResource("3_8ddlg")]
 layout_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabStates"]
 visible = false
 layout_mode = 2
 
-[node name="SScreenplayDisplay" parent="VBoxContainer/TabStates/ScrollContainer" instance=ExtResource("5_eswd5")]
+[node name="SScreenplayEvent" parent="VBoxContainer/TabStates/ScrollContainer" instance=ExtResource("5_jsj8k")]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="IE_NewScene" type="Node" parent="."]
 script = ExtResource("4_surlj")
@@ -101,20 +103,18 @@ require_ctrl = true
 
 [node name="Dialog_SaveFlow" type="FileDialog" parent="."]
 initial_position = 1
-size = Vector2i(640, 400)
+size = Vector2i(392, 159)
 popup_window = true
-access = 2
-root_subfolder = "/dlg/"
+root_subfolder = "res://dlg/"
 filters = PackedStringArray("*.dlg")
 use_native_dialog = true
 
-[node name="Confim_DeleteFile" type="ConfirmationDialog" parent="."]
-title = "Delete this file?"
-initial_position = 1
-
-[connection signal="file_selected" from="VBoxContainer/TabStates/FlowEditor/HSplitContainer/FileExplorer" to="." method="_on_tree_file_selected"]
+[connection signal="active_tab_rearranged" from="VBoxContainer/TabStates" to="." method="_on_tab_states_active_tab_rearranged"]
+[connection signal="tab_button_pressed" from="VBoxContainer/TabStates" to="." method="_on_tab_states_tab_button_pressed"]
+[connection signal="tab_changed" from="VBoxContainer/TabStates" to="." method="_on_tab_states_tab_changed"]
+[connection signal="tab_clicked" from="VBoxContainer/TabStates" to="." method="_on_tab_states_tab_clicked"]
+[connection signal="tab_selected" from="VBoxContainer/TabStates" to="." method="_on_tab_states_tab_selected"]
+[connection signal="file_selected" from="VBoxContainer/TabStates/FlowEditor/HBoxContainer/FileExplorer" to="." method="_on_tree_file_selected"]
 [connection signal="input_start" from="IE_NewScene" to="." method="_on_ie_new_scene_input_start"]
 [connection signal="input_start" from="IE_Save" to="." method="_on_ie_save_input_start"]
-[connection signal="about_to_popup" from="Dialog_SaveFlow" to="." method="_on_dialog_save_flow_about_to_popup"]
 [connection signal="confirmed" from="Dialog_SaveFlow" to="." method="_on_dialog_save_flow_confirmed"]
-[connection signal="file_selected" from="Dialog_SaveFlow" to="." method="_on_dialog_save_flow_file_selected"]

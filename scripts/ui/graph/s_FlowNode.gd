@@ -12,6 +12,8 @@ var type_data={}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var _timr: Timer =$Timer
+	_timr.wait_time=randf_range(0.1,0.2)
 	size=Vector2(250,150)
 
 func _REBUILD():
@@ -38,16 +40,36 @@ func _REBUILD():
 			set_slot_enabled_left(index,true)
 			set_slot_color_left(index,SynType.conv_DictToColor(pin_data.get('color',{})))
 			
-		
 		for index in type_data.outputs.size():
 			var pin_data=type_data.outputs[index]
 			print('do the output: '+str(index))
 			get_child(index).visible=true
 			set_slot_enabled_right(index,true)
 			set_slot_color_right(index,SynType.conv_DictToColor(pin_data.get('color',{})))
+		
+		resizable=type_data.get('resize',false)
+		
+		if IS_DirectEditable():
+			var cont: Control = $TextEdit
+			cont.mouse_filter=0
+	# STYLES
 
+
+
+func IS_DirectEditable()->bool:
+	if type_data==null: return false
+	return type_data.get('direct_edit',false)
 
 func _process(delta):
+	pass
+	
+	#if IS_DirectEditable():
+	#	if type_data.has('OnDirectEdit'):
+#			var mthd=type_data['OnDirectEdit']
+	#		var output=mthd.call(self,N_label.text)
+
+
+func _on_timer_timeout():
 	if type_data.has('GetDisplayText'):
 		var mthd=type_data['GetDisplayText']
 		var output=mthd.call(type_data,DATA)

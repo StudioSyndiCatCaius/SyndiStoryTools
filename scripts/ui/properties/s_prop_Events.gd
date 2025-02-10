@@ -4,6 +4,8 @@ class_name PropertyEdit_Event
 
 
 @export var N_EventList: VBoxContainer
+@export var N_KeyOffsetStart: SpinBox
+
 
 func _init_value():
 	_REBUILD()
@@ -69,3 +71,11 @@ func _on_btn_new_line_pressed():
 
 func _on_btn_clear_all_pressed():
 	APP.NODE_ClearAllChildren(N_EventList)
+
+
+func _on_btn_autoset_keys_pressed():
+	
+	for i in N_EventList.get_children().size():
+		var dat=N_EventList.get_children()[i]
+		var new_key=owner_DATA.get('name','')+'_'+str(i+N_KeyOffsetStart.value)
+		dat.SetKey(new_key)
